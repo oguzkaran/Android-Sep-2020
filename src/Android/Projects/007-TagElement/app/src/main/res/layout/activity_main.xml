@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/mainActivityEditTextPlace"
+        android:hint="Place"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="mecidiyeköy"/>
+    <EditText
+        android:id="@+id/mainActivityEditTextLatitude"
+        android:hint="Latitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:text="41.069706"/>
+
+    <EditText
+        android:id="@+id/mainActivityEditTextLongitude"
+        android:hint="Longitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:text="28.995070"/>
+
+    <Button
+        android:onClick="onSaveButtonClicked"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save" />
+
+    <Button
+        android:onClick="onExitButtonClicked"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Exit" />
+
+    <TextView
+        android:onClick="onPlaceTextViewClicked"
+        android:id="@+id/mainActivityTextViewPlace"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
