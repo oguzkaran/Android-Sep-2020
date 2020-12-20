@@ -7,3 +7,4 @@ KAYNAK GÖSTERMEK KOŞULUYLA HER TÜRLÜ ALINTI YAPILABİLİR
 #java
 #rxjava
 #jetpack
+#dependencyinjection
