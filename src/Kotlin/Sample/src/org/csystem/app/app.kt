@@ -1,23 +1,36 @@
 /*----------------------------------------------------------------------------------------------------------------------
-    Tarih-zaman sınıflarının withXXX metotları
-    Sınıf Çalışması: Klavyeden alınan gün, ay ve yıl bilgilerine göre kişinin doğum günü geçmişse
-    "geçmiş doğum gününüz kutlu olsun", o an doğum günü ise "doğum gününüz kutlu olsun", doğum günü henüz gelmemişse
-    "doğum gününüzü şimdiden kutlarız" mesajlarından birini ekrana basan programı yazınız
+    Aşağıdaki örnekte birden fazla formatter ile işlem yapan örnek bir fonksiyon yazılmıştır. Detaylar gözardı edilmiştir.
+    Bir kütüphane içerisine daha detaylısı eklenecektir
 ----------------------------------------------------------------------------------------------------------------------*/
 package org.csystem.app
 
 import java.time.LocalDate
-import java.time.Month
-import java.time.temporal.ChronoUnit
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
+
+
+fun tryParse(str: String) : LocalDate?
+{
+    val formatters = arrayOf(DateTimeFormatter.ofPattern("dd-MM-yyyy"), DateTimeFormatter.ofPattern("dd/MM/yyyy"), DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+
+    for (formatter in formatters) {
+        try {
+            return LocalDate.parse(str, formatter)
+        }
+        catch (ex: DateTimeParseException) {
+
+        }
+    }
+    return null
+}
 
 fun main()
 {
-    val now = LocalDate.now()
-    val birthDate = LocalDate.of(1976, Month.SEPTEMBER, 10)
-    val birthDay = birthDate.withYear(now.year)
+    val str1 = "10/09/1976"
+    val str2 = "10-09-1976"
+    val str3 = "1976-09-10"
 
-    val age = ChronoUnit.DAYS.between(birthDate, now) / 365.0
-
-    println(age)
-    println(birthDay)
+    println(tryParse(str1))
+    println(tryParse(str2))
+    println(tryParse(str3))
 }
