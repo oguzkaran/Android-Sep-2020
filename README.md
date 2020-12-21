@@ -8,3 +8,5 @@ KAYNAK GÖSTERMEK KOŞULUYLA HER TÜRLÜ ALINTI YAPILABİLİR
 #rxjava
 #jetpack
 #dependencyinjection
+#oguzkaran
+#Oğuz Karan
