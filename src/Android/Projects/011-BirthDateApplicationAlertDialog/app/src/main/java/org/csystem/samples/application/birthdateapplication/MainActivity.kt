@@ -6,6 +6,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
@@ -15,6 +16,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mEditTextBirthDate : EditText
     private lateinit var mTextViewAge: TextView
     private val mFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    private var mIsUpdated: Boolean = false
 
     private fun getBirthDateMessage(birthDay: LocalDate, now: LocalDate) = when {
         now.isAfter(birthDay) -> "Geçmiş doğum gününüz kutlu olsun"
@@ -22,19 +24,38 @@ class MainActivity : AppCompatActivity() {
         else -> "Doğum gününüz kutlu olsun"
     }
 
-    private fun showAlert(message: String)
+    private fun showUpdatedAlert()
     {
         val dlg = android.app.AlertDialog.Builder(this)
-                .setMessage(message)
-                .setPositiveButton("OK") { _, _  -> }
+                .setTitle("Uyarı")
+                .setMessage("Hesaplanmamış giriş var. Çıkmak istediğinize emin misiniz?")
+                .setPositiveButton("Evet") { _, _  -> finish()}
+                .setNeutralButton("İptal") {_, _ -> }
                 .create()
 
         dlg.show()
     }
 
-    private fun initViews()
+    private fun showInvalidFormatAlert()
+    {
+        val dlg = android.app.AlertDialog.Builder(this)
+                .setTitle("Dikkat")
+                .setMessage("Geçersiz tarih formatı")
+                .setPositiveButton("Tamam") { _, _  -> }
+                .create()
+
+        dlg.show()
+    }
+
+    private fun initBirthDteEditTextView()
     {
         mEditTextBirthDate = findViewById(R.id.mainActivityEditTextBirthDate)
+        mEditTextBirthDate.addTextChangedListener(onTextChanged = {_, _, _, _ -> mIsUpdated = true})
+    }
+
+    private fun initViews()
+    {
+        initBirthDteEditTextView()
         mTextViewAge = findViewById(R.id.mainActivityTextViewAge)
     }
 
@@ -53,6 +74,7 @@ class MainActivity : AppCompatActivity() {
     fun onOKButtonClicked(view: View)
     {
         try {
+            mIsUpdated = false;
             val birthDate = LocalDate.parse(mEditTextBirthDate.text.toString(), mFormatter)
             val now = LocalDate.now()
             val birthDay = birthDate.withYear(now.year)
@@ -63,16 +85,19 @@ class MainActivity : AppCompatActivity() {
 
             val message = getBirthDateMessage(birthDay, now)
 
-            mTextViewAge.setText("Yeni yaşınız:%s".format(age))
+            mTextViewAge.text = "Yeni yaşınız:$age"
             Toast.makeText(this, message, Toast.LENGTH_LONG).show()
         }
         catch (ex:DateTimeParseException) {
-            showAlert("Geçersiz tarih formatı")
+            showInvalidFormatAlert()
         }
     }
 
     fun onExitButtonClicked(view: View)
     {
-        finish()
+        if (mIsUpdated)
+            showUpdatedAlert()
+        else
+            finish()
     }
 }

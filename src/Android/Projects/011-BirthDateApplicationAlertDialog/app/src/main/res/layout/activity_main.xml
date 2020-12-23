@@ -8,6 +8,13 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <EditText
+        android:id="@+id/mainActivityEditTextName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="date"
+        android:hint="Doğum tarihiniz (dd/MM/yyyy)"/>
 
     <EditText
         android:id="@+id/mainActivityEditTextBirthDate"
