@@ -92,7 +92,7 @@ class MainActivity : AppCompatActivity() {
         val now = LocalDate.now()
         val birthDayMessage = getBirthDateMessage(person.birthDate.withYear(now.year), now)
 
-        "[${person.name}${person.birthDate}-${person.age}\n${birthDayMessage}"
+        "[${person.name}] ${person.birthDate}-${person.age}\n${birthDayMessage}"
                 .also { Toast.makeText(this, it, Toast.LENGTH_LONG).show() }
     }
 
