@@ -34,11 +34,13 @@
             android:id="@+id/mainActivityTextViewPerson"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
         <Button
-            android:onClick="onOKButtonClicked"
+            android:onClick="onVisibleInvisibleGoneButtonClicked"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tamam" />
+            android:text="Visible/Invisible/Gone" />
+
         <Button
             android:onClick="onClearButtonClicked"
             android:layout_width="match_parent"
@@ -47,15 +49,13 @@
     </LinearLayout>
 
     <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onOKButtonClicked"
+        android:text="@string/app_name" />
+    <Button
         android:onClick="onEnableDisableButtonClicked"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Enable/Disable" />
-
-    <Button
-        android:onClick="onVisibleInvisibleGoneButtonClicked"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Visible/Invisible/Gone" />
-
 </LinearLayout>
