@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/mainActivityLinearLayoutPersonInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/mainActivityEditTextName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Adınız"/>
+
+        <EditText
+            android:id="@+id/mainActivityEditTextBirthDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="date"
+            android:hint="Doğum tarihiniz (dd/MM/yyyy)"/>
+        <TextView
+            android:id="@+id/mainActivityTextViewPerson"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <Button
+            android:onClick="onOKButtonClicked"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tamam" />
+        <Button
+            android:onClick="onClearButtonClicked"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Temizle" />
+    </LinearLayout>
+
+    <Button
+        android:onClick="onEnableDisableButtonClicked"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enable/Disable" />
+
+    <Button
+        android:onClick="onVisibleInvisibleGoneButtonClicked"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Visible/Invisible/Gone" />
+
+</LinearLayout>
