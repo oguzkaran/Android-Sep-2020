@@ -7,21 +7,29 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
+import java.lang.StringBuilder
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
-import java.time.temporal.ChronoUnit
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var mEditTextName : EditText
     private lateinit var mEditTextBirthDate : EditText
-    private lateinit var mTextViewAge: TextView
+    private lateinit var mTextViewPerson: TextView
     private val mFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
     private var mIsUpdated: Boolean = false
+    private val mOnTextChangCallback: (CharSequence?, Int, Int, Int) -> Unit = {_, _, _, _ -> mIsUpdated = true}
 
     private fun getBirthDateMessage(birthDay: LocalDate, now: LocalDate) = when {
         now.isAfter(birthDay) -> "Geçmiş doğum gününüz kutlu olsun"
         now.isBefore(birthDay) -> "Doğum gününüzü şimdiden kutlu olsun"
         else -> "Doğum gününüz kutlu olsun"
+    }
+
+    private fun clearEditTexts()
+    {
+        mEditTextName.setText("")
+        mEditTextBirthDate.setText("")
     }
 
     private fun showUpdatedAlert()
@@ -47,16 +55,23 @@ class MainActivity : AppCompatActivity() {
         dlg.show()
     }
 
-    private fun initBirthDteEditTextView()
+    private fun initNameEditText()
+    {
+        mEditTextName = findViewById(R.id.mainActivityEditTextName)
+        mEditTextName.addTextChangedListener(onTextChanged = mOnTextChangCallback)
+    }
+
+    private fun  initBirthDateEditText()
     {
         mEditTextBirthDate = findViewById(R.id.mainActivityEditTextBirthDate)
-        mEditTextBirthDate.addTextChangedListener(onTextChanged = {_, _, _, _ -> mIsUpdated = true})
+        mEditTextBirthDate.addTextChangedListener(onTextChanged = mOnTextChangCallback)
     }
 
     private fun initViews()
     {
-        initBirthDteEditTextView()
-        mTextViewAge = findViewById(R.id.mainActivityTextViewAge)
+        initNameEditText()
+        initBirthDateEditText()
+        mTextViewPerson = findViewById(R.id.mainActivityTextViewPerson)
     }
 
     private fun initialize()
@@ -71,22 +86,25 @@ class MainActivity : AppCompatActivity() {
         initialize()
     }
 
+    fun onPersonTextViewClicked(view: View)
+    {
+        val person = mTextViewPerson.tag as Person
+        val now = LocalDate.now()
+        val birthDayMessage = getBirthDateMessage(person.birthDate.withYear(now.year), now)
+
+        "[${person.name}${person.birthDate}-${person.age}\n${birthDayMessage}"
+                .also { Toast.makeText(this, it, Toast.LENGTH_LONG).show() }
+    }
+
     fun onOKButtonClicked(view: View)
     {
         try {
             mIsUpdated = false;
+            val name = mEditTextName.text.toString()
             val birthDate = LocalDate.parse(mEditTextBirthDate.text.toString(), mFormatter)
-            val now = LocalDate.now()
-            val birthDay = birthDate.withYear(now.year)
-            val age = ChronoUnit.DAYS.between(birthDate, now) / 365.0
-
-            if (age < 0)
-                throw DateTimeParseException("", "", 0);
-
-            val message = getBirthDateMessage(birthDay, now)
-
-            mTextViewAge.text = "Yeni yaşınız:$age"
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+            clearEditTexts()
+            mTextViewPerson.tag = Person(name, birthDate)
+            mTextViewPerson.text = name
         }
         catch (ex:DateTimeParseException) {
             showInvalidFormatAlert()

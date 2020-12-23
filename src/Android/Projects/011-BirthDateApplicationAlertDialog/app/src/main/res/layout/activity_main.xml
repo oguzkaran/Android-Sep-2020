@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="date"
-        android:hint="Doğum tarihiniz (dd/MM/yyyy)"/>
+        android:inputType="textPersonName"
+        android:hint="Adınız"/>
 
     <EditText
         android:id="@+id/mainActivityEditTextBirthDate"
@@ -23,9 +23,9 @@
         android:ems="10"
         android:inputType="date"
         android:hint="Doğum tarihiniz (dd/MM/yyyy)"/>
-
     <TextView
-        android:id="@+id/mainActivityTextViewAge"
+        android:onClick="onPersonTextViewClicked"
+        android:id="@+id/mainActivityTextViewPerson"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
