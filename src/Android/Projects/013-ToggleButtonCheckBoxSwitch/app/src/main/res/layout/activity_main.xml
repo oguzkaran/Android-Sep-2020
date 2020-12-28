@@ -11,13 +11,16 @@
     <ToggleButton
         android:id="@+id/mainActivityToggleButtonConnectDisconnect"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textOff="KAPALI"
+        android:textOn="AÇIK"
+        />
 
     <Switch
         android:id="@+id/mainActivitySwitchAllow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Switch" />
+        android:text="İzin durumu"/>
 
     <CheckBox
         android:id="@+id/mainActivityCheckBoxAccept"
