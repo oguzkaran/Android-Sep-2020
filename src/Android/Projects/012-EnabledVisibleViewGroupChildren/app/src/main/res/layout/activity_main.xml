@@ -36,10 +36,10 @@
             android:layout_height="wrap_content" />
 
         <Button
-            android:onClick="onVisibleInvisibleGoneButtonClicked"
+            android:onClick="onOKButtonClicked"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Visible/Invisible/Gone" />
+            android:text="OK" />
 
         <Button
             android:onClick="onClearButtonClicked"
@@ -47,12 +47,12 @@
             android:layout_height="wrap_content"
             android:text="Temizle" />
     </LinearLayout>
-
     <Button
+        android:onClick="onVisibleInvisibleGoneButtonClicked"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onOKButtonClicked"
-        android:text="@string/app_name" />
+        android:text="Visible/Invisible/Gone" />
+
     <Button
         android:onClick="onEnableDisableButtonClicked"
         android:layout_width="match_parent"

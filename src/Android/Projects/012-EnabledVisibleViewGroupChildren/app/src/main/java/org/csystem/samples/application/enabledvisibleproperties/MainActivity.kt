@@ -37,7 +37,15 @@ class MainActivity : AppCompatActivity() {
         initialize()
     }
 
-    fun onOKButtonClicked(view: View) {}
+    fun onOKButtonClicked(view: View)
+    {
+        //...
+    }
+
+    fun onClearButtonClicked(view: View)
+    {
+        clearPersonInfo()
+    }
 
     fun onEnableDisableButtonClicked(view: View)
     {
@@ -52,10 +60,5 @@ class MainActivity : AppCompatActivity() {
     fun onVisibleInvisibleGoneButtonClicked(view: View)
     {
         mLinearLayoutPersonInfo.visibility = Visibility.visibility
-    }
-
-    fun onClearButtonClicked(view: View)
-    {
-        clearPersonInfo()
     }
 }
