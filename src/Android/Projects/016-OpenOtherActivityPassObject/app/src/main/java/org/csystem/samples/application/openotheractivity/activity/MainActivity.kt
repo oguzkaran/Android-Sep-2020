@@ -6,10 +6,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.Switch
-import org.csystem.samples.application.openotheractivity.IS_OPEN
-import org.csystem.samples.application.openotheractivity.NAME
-import org.csystem.samples.application.openotheractivity.NUMBER
-import org.csystem.samples.application.openotheractivity.R
+import org.csystem.samples.application.openotheractivity.*
+import org.csystem.samples.application.openotheractivity.entity.DeviceInfo
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mEditTextName: EditText
@@ -41,11 +39,10 @@ class MainActivity : AppCompatActivity() {
         val name = mEditTextName.text.toString()
         val number = mEditTextNumber.text.toString().toLong()
         val isOpen = mSwitchOpenStatus.isChecked
+        val deviceInfo = DeviceInfo(name, number, isOpen)
         val intent = Intent(this, SecondActivity::class.java)
 
-        intent.putExtra(NAME, name)
-        intent.putExtra(NUMBER, number)
-        intent.putExtra(IS_OPEN, isOpen)
+        intent.putExtra(DEVICE_INFO, deviceInfo)
 
         startActivity(intent)
     }

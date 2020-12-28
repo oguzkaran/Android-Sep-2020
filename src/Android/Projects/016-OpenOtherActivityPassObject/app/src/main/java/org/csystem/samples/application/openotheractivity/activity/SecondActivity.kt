@@ -1,44 +1,45 @@
 package org.csystem.samples.application.openotheractivity.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.Switch
-import org.csystem.samples.application.openotheractivity.IS_OPEN
-import org.csystem.samples.application.openotheractivity.NAME
-import org.csystem.samples.application.openotheractivity.NUMBER
+import androidx.appcompat.app.AppCompatActivity
+import org.csystem.samples.application.openotheractivity.DEVICE_INFO
 import org.csystem.samples.application.openotheractivity.R
+import org.csystem.samples.application.openotheractivity.entity.DeviceInfo
 
 class SecondActivity : AppCompatActivity() {
     private lateinit var mEditTextName: EditText
     private lateinit var mEditTextNumber: EditText
     private lateinit var mSwitchOpenStatus: Switch
 
-    private fun initNameEditTextView()
+    private fun initNameEditTextView(deviceInfo: DeviceInfo)
     {
         mEditTextName = findViewById(R.id.secondActivityEditTextName)
-        mEditTextName.setText(intent.getStringExtra(NAME))
+        mEditTextName.setText(deviceInfo.name)
     }
 
-    private fun initNumberEditTextView()
+    private fun initNumberEditTextView(deviceInfo: DeviceInfo)
     {
         mEditTextNumber = findViewById(R.id.secondActivityEditTextNumber)
-        mEditTextNumber.setText(intent.getLongExtra(NUMBER, -1).toString())
+        mEditTextNumber.setText(deviceInfo.number.toString())
     }
 
-    private fun initOpenStatusSwitchView()
+    private fun initOpenStatusSwitchView(deviceInfo: DeviceInfo)
     {
         mSwitchOpenStatus = findViewById(R.id.secondActivitySwitchOpenStatus)
-        mSwitchOpenStatus.isChecked = intent.getBooleanExtra(IS_OPEN, false);
+        mSwitchOpenStatus.isChecked = deviceInfo.isOpen
     }
 
     private fun initViews()
     {
-        initNameEditTextView()
-        initNumberEditTextView()
-        initOpenStatusSwitchView()
+        val deviceInfo = intent.getSerializableExtra(DEVICE_INFO) as DeviceInfo
+
+        initNameEditTextView(deviceInfo)
+        initNumberEditTextView(deviceInfo)
+        initOpenStatusSwitchView(deviceInfo)
     }
 
     private fun initialize()
