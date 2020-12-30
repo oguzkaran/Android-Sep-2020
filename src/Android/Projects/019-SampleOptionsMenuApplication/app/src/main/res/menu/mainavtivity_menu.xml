@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.MainActivity">
+
+    <group>
+        <item
+            android:id="@+id/mainActivityMenuItemSettings"
+            android:orderInCategory="1"
+            app:showAsAction="collapseActionView"
+            android:title="@string/mainactivity_menu_settings" />
+        <item
+            android:id="@+id/mainActivityMenuItemAbout"
+            android:orderInCategory="2"
+            app:showAsAction="collapseActionView"
+            android:title="@string/mainactivity_menu_about" />
+        <item
+            android:id="@+id/mainActivityMenuItemExit"
+            android:orderInCategory="3"
+            app:showAsAction="collapseActionView"
+            android:title="@string/mainactivity_menu_exit" />
+    </group>
+</menu>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activity.MainActivity">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/mainActivityMenuItemRed"
+            android:orderInCategory="1"
+            android:title="@string/mainactivity_action_red"
+            app:showAsAction="collapseActionView" />
+        <item
+            android:id="@+id/mainActivityMenuItemGreen"
+            android:orderInCategory="2"
+            android:title="@string/mainactivity_action_green"
+            app:showAsAction="collapseActionView" />
+
+        <item
+            android:id="@+id/mainActivityMenuItemBlue"
+            android:orderInCategory="3"
+            android:title="@string/mainactivity_action_blue"
+            app:showAsAction="collapseActionView" />
+
+        <item
+            android:id="@+id/mainActivityMenuItemBlack"
+            android:orderInCategory="3"
+            android:title="@string/mainactivity_action_black"
+            app:showAsAction="collapseActionView" />
+
+        <item
+            android:id="@+id/mainActivityMenuItemRandom"
+            android:orderInCategory="4"
+            android:title="@string/mainactivity_action_random"
+            app:showAsAction="collapseActionView" />
+
+    </group>
+    <group>
+        <item
+            android:id="@+id/mainActivityMenuItemAbout"
+            android:orderInCategory="5"
+            android:title="@string/mainactivity_action_about"
+            app:showAsAction="collapseActionView" />
+        <item
+            android:id="@+id/mainActivityMenuItemExit"
+            android:orderInCategory="6"
+            android:title="@string/mainactivity_action_exit"
+            app:showAsAction="collapseActionView" />
+    </group>
+</menu>
