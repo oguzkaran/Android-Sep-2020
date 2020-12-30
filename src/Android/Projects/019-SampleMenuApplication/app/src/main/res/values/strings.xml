@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">SampleOptionsMenuApplication</string>
+    <string name="mainactivity_menu_settings">Ayarlar</string>
+    <string name="mainactivity_menu_about">Hakkında</string>
+    <string name="mainactivity_menu_exit">Çıkış</string>
+    <string name="about_message">C ve Sistem Programcıları Derneği</string>
+    <string name="about_title">CSD</string>
+    <string name="about_positive_button">Tamam</string>
+</resources>
