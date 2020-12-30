@@ -1,4 +1,4 @@
-package org.csystem.samples.application.genericapplication
+package org.csystem.samples.application.genericmenuapplication
 
 import org.junit.Test
 

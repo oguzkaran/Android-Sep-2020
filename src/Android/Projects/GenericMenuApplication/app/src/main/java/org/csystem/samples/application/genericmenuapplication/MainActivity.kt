@@ -1,4 +1,4 @@
-package org.csystem.samples.application.genericapplication
+package org.csystem.samples.application.genericmenuapplication
 
 import android.os.Bundle
 import android.view.Menu
