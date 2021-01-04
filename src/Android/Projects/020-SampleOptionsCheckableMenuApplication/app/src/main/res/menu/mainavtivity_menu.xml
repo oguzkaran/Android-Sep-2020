@@ -34,7 +34,6 @@
             android:orderInCategory="4"
             android:title="@string/mainactivity_action_random"
             app:showAsAction="collapseActionView" />
-
     </group>
     <group>
         <item

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <RadioGroup
+        android:id="@+id/mainActivityRadioGroupEducation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/textview_education_title" />
+
+        <RadioButton
+            android:id="@+id/mainActivityRadioButtonCollage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/radiobutton_collage" />
+
+        <RadioButton
+            android:id="@+id/mainActivityRadioButtonUniversity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/radiobutton_university" />
+
+        <RadioButton
+            android:id="@+id/mainActivityRadioButtonMsC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/radiobutton_msc" />
+
+        <RadioButton
+            android:id="@+id/mainActivityRadioButtonPhd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/radiobutton_phd" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/mainActivityRadioGroupMaritalStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/textview_maritalstatus_title" />
+
+        <RadioButton
+            android:id="@+id/mainActivityRadioButtonMarried"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/radiobutton_married" />
+
+        <RadioButton
+            android:id="@+id/mainActivityRadioButtonSingle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/radiobutton_single" />
+
+        <RadioButton
+            android:id="@+id/mainActivityRadioButtonDivorced"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/radiobutton_divorced" />
+    </RadioGroup>
+
+    <Button
+        android:onClick="onSaveButtonClicked"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_save" />
+
+    <TextView
+        android:id="@+id/mainActivityTextViewResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
