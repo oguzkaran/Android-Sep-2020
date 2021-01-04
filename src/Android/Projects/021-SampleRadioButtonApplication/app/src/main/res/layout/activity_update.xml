@@ -6,10 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.MainActivity">
+    tools:context=".activity.UpdateActivity">
 
     <RadioGroup
-        android:id="@+id/mainActivityRadioGroupEducation"
+        android:id="@+id/updateActivityRadioGroupEducation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -19,7 +19,7 @@
             android:text="@string/textview_education_title" />
 
         <RadioButton
-            android:id="@+id/mainActivityRadioButtonCollage"
+            android:id="@+id/updateActivityRadioGroupCollage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:checked="true"
@@ -27,21 +27,21 @@
             android:text="@string/radiobutton_collage" />
 
         <RadioButton
-            android:id="@+id/mainActivityRadioButtonUniversity"
+            android:id="@+id/updateActivityRadioButtonUniversity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:tag="2"
             android:text="@string/radiobutton_university" />
 
         <RadioButton
-            android:id="@+id/mainActivityRadioButtonMsC"
+            android:id="@+id/updateActivityRadioButtonMsC"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:tag="3"
             android:text="@string/radiobutton_msc" />
 
         <RadioButton
-            android:id="@+id/mainActivityRadioButtonPhd"
+            android:id="@+id/updateActivityRadioButtonPhd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:tag="4"
@@ -49,10 +49,9 @@
     </RadioGroup>
 
     <RadioGroup
-        android:id="@+id/mainActivityRadioGroupMaritalStatus"
+        android:id="@+id/updateActivityRadioGroupMaritalStatus"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:tag = "-1">
+        android:layout_height="wrap_content" >
 
         <TextView
             android:layout_width="match_parent"
@@ -60,21 +59,22 @@
             android:text="@string/textview_maritalstatus_title" />
 
         <RadioButton
-            android:id="@+id/mainActivityRadioButtonMarried"
+            android:checked="true"
+            android:id="@+id/updateActivityRadioButtonMarried"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:tag="1"
             android:text="@string/radiobutton_married" />
 
         <RadioButton
-            android:id="@+id/mainActivityRadioButtonSingle"
+            android:id="@+id/updateActivityRadioButtonSingle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:tag="2"
             android:text="@string/radiobutton_single" />
 
         <RadioButton
-            android:id="@+id/mainActivityRadioButtonDivorced"
+            android:id="@+id/updateActivityRadioButtonDivorced"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:tag="3"
@@ -82,13 +82,15 @@
     </RadioGroup>
 
     <Button
-        android:onClick="onSaveButtonClicked"
+        android:onClick="onUpdateButtonClicked"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/button_save" />
 
-    <TextView
-        android:id="@+id/mainActivityTextViewResult"
+    <Button
+        android:onClick="onCancelButtonClicked"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@string/button_cancel" />
+
 </LinearLayout>

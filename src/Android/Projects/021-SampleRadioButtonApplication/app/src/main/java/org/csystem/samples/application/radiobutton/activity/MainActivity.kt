@@ -1,5 +1,6 @@
-package org.csystem.samples.application.radiobutton
+package org.csystem.samples.application.radiobutton.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -10,8 +11,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import org.csystem.samples.application.radiobutton.R
+import org.csystem.samples.application.radiobutton.activity.model.Info
 
 class MainActivity : AppCompatActivity() {
+    companion object {
+        const val UPDATE_ACTIVITY_REQUEST_CODE = 1
+    }
     private lateinit var mRadioGroupEducation: RadioGroup
     private lateinit var mRadioGroupMaritalStatus: RadioGroup
     private lateinit var mTextViewResult: TextView
@@ -21,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         AlertDialog.Builder(this).apply {
             setTitle(R.string.about_title)
             setMessage(R.string.about_message)
-            setPositiveButton(R.string.about_positive_button) {_, _->}
+            setPositiveButton(R.string.about_positive_button) { _, _->}
         }.show()
     }
 
@@ -30,8 +36,25 @@ class MainActivity : AppCompatActivity() {
         AlertDialog.Builder(this).apply {
             setTitle(R.string.notselected_title)
             setMessage(R.string.notselected_message)
-            setPositiveButton(R.string.notselected_positive_button) {_, _->}
+            setPositiveButton(R.string.notselected_positive_button) { _, _->}
         }.show()
+    }
+
+    private fun onUpdateMenu()
+    {
+        val maritalStatusIndex = mRadioGroupMaritalStatus.tag as Int
+
+        if (maritalStatusIndex == -1) {
+            showNotSelectedDialog()
+            return
+        }
+
+        val educationIndex = mRadioGroupEducation.tag as Int
+
+        val intent = Intent(this, UpdateActivity::class.java)
+
+        intent.putExtra("info", Info(educationIndex, maritalStatusIndex))
+        startActivityForResult(intent, UPDATE_ACTIVITY_REQUEST_CODE)
     }
 
     private fun initEducationRadioGroup()
@@ -40,6 +63,7 @@ class MainActivity : AppCompatActivity() {
         mRadioGroupEducation.setOnCheckedChangeListener { _, id ->
             val rb = findViewById<RadioButton>(id)
             //...
+            mRadioGroupEducation.tag = rb.tag.toString().toInt()
 
             if (rb != null)
                 Toast.makeText(this, rb.text, Toast.LENGTH_LONG).show()
@@ -54,7 +78,11 @@ class MainActivity : AppCompatActivity() {
 
             //...
 
-            Toast.makeText(this, rb.text, Toast.LENGTH_LONG).show()
+            if (rb != null) {
+                mRadioGroupMaritalStatus.tag = rb.tag.toString().toInt()
+                Toast.makeText(this, rb.text, Toast.LENGTH_LONG).show()
+            }
+            //TODO: rb'nin null olması durumunda tekrar tag bilgisi güncellenecek ve diğer id'ye göre rütuşlar yapılacaktır
         }
     }
 
@@ -83,9 +111,28 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
+    {
+        when (requestCode) {
+            UPDATE_ACTIVITY_REQUEST_CODE -> {
+                if (resultCode != RESULT_OK)
+                    return
+
+                val info = data?.getSerializableExtra("info") as Info
+                (mRadioGroupEducation.getChildAt(info.educationIndex) as RadioButton).isChecked = true
+                (mRadioGroupMaritalStatus.getChildAt(info.maritalStatusIndex) as RadioButton).isChecked = true
+            }
+            //
+        }
+
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean
     {
         when (item.itemId) {
+            R.id.mainActivityMenuItemUpdate -> onUpdateMenu()
             R.id.mainActivityMenuItemAbout -> showAboutDialog()
             R.id.mainActivityMenuItemExit -> finish()
         }
@@ -107,6 +154,6 @@ class MainActivity : AppCompatActivity() {
         "${selectedRadioButtonEducation.text}, ${selectedRadioButtonMaritalStatus.text}"
             .also { mTextViewResult.text = it }
 
-        //mRadioGroupEducation.clearCheck()
+        mRadioGroupMaritalStatus.clearCheck()
     }
 }

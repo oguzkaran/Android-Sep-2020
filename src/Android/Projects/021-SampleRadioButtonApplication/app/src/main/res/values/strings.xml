@@ -2,6 +2,7 @@
     <string name="app_name">GenericApplication</string>
 
     <!-- Menu Items-->
+    <string name="action_update">Güncelle</string>
     <string name="action_about">Hakkında</string>
     <string name="action_exit">Çıkış</string>
 
@@ -27,4 +28,5 @@
     <string name="radiobutton_divorced">Boşanmış</string>
 
     <string name="button_save">Kaydet</string>
+    <string name="button_cancel">İptal</string>
 </resources>
