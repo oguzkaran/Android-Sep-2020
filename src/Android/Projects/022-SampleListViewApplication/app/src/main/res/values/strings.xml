@@ -12,5 +12,8 @@
     <string name="about_positive_button">Tamam</string>
 
 
-    <string name="name_hint">İsinm giriniz</string>
+
+    <string name="name_hint">İsim giriniz</string>
+    <string name="button_add_with_adapter">Adapter ile Ekle</string>
+    <string name="button_add_with_list">Liste ile Ekle</string>
 </resources>

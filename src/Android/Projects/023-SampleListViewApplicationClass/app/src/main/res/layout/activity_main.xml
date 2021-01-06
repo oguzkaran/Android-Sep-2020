@@ -9,24 +9,40 @@
     tools:context=".MainActivity">
 
     <EditText
-        android:id="@+id/mainActivityEditTextName"
+        android:id="@+id/mainActivityEditTextCityName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="@string/name_hint"/>
+        android:hint="@string/city_name_hint"/>
+
+    <EditText
+        android:id="@+id/mainActivityEditTextCityPlate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:hint="@string/city_plate_hint"/>
+
+    <EditText
+        android:id="@+id/mainActivityEditTextCityPhoneCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="phone"
+        android:hint="@string/city_phone_code_hint"/>
 
     <Button
         android:onClick="onAddWithAdapterButtonClicked"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_add_with_adapter" />
+        android:text="@string/button_add_city" />
 
     <Button
-        android:onClick="onAddWithListButtonClicked"
+        android:onClick="onClearCitiesButtonClicked"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_add_with_list" />
+        android:text="@string/button_clear_cities" />
 
     <ListView
         android:id="@+id/mainActivityListViewNames"

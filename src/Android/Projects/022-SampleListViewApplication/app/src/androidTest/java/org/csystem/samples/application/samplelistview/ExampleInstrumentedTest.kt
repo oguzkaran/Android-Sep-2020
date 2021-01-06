@@ -1,4 +1,4 @@
-package org.csystem.samples.application.genericmenuapplication
+package org.csystem.samples.application.samplelistview
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
