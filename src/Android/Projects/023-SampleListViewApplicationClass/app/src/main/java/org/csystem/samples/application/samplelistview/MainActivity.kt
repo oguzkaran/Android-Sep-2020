@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ListView
 import androidx.appcompat.app.AlertDialog
@@ -16,6 +17,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mEditTextCityPhoneCode: EditText
     private lateinit var mListViewCities: ListView
     private lateinit var mCitiesAdapter: ArrayAdapter<CityInfo>
+    private lateinit var mButtonClear: Button
 
     private fun showAboutDialog()
     {
@@ -58,6 +60,7 @@ class MainActivity : AppCompatActivity() {
     {
         initNamesListView()
         initEditTexts()
+        mButtonClear = findViewById(R.id.mainActivityButtonClear)
     }
 
     private fun initialize()
@@ -96,6 +99,7 @@ class MainActivity : AppCompatActivity() {
             val phoneCode = mEditTextCityPhoneCode.text.toString().toInt()
 
             mCitiesAdapter.add(CityInfo(name, plate, phoneCode))
+            mButtonClear.isEnabled = true
         }
         catch (ex: NumberFormatException) {
             showInvalidDataDialog()
@@ -104,6 +108,7 @@ class MainActivity : AppCompatActivity() {
 
     fun onClearCitiesButtonClicked(view: View)
     {
+        mButtonClear.isEnabled = false
         mCitiesAdapter.clear()
     }
 }

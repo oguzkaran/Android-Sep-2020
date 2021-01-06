@@ -39,9 +39,11 @@
         android:text="@string/button_add_city" />
 
     <Button
+        android:id="@+id/mainActivityButtonClear"
         android:onClick="onClearCitiesButtonClicked"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:enabled="false"
         android:text="@string/button_clear_cities" />
 
     <ListView

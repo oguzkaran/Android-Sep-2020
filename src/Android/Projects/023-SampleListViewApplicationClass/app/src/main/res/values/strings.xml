@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GenericApplication</string>
+    <string name="app_name">SampleListViewApplication</string>
 
     <!-- Menu Items-->
     <string name="action_about">Hakkında</string>
