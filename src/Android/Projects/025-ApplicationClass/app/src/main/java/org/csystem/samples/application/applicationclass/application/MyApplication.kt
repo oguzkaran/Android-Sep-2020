@@ -10,7 +10,7 @@ class MyApplication : Application() {
             get() = mcInstance
     }
     val data = "MyApplication" // MyApplication nesnesi içerisinde olabilecek bir veriyi temsil ediyor
-    
+
     override fun onCreate()
     {
         Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show()
