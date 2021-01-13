@@ -13,6 +13,7 @@ import org.csystem.samples.application.sampleaar.application.MyApplication
 import org.csystem.samples.application.sampleaar.databinding.ActivityMainBinding
 import org.csystem.samples.application.sampleaar.viewmodel.Data
 import org.csystem.samples.library.sample.AboutActivity
+import org.csystem.util.exception.ExceptionUtil
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mBinding: ActivityMainBinding
@@ -28,8 +29,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun initBinding()
     {
-        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        mBinding.data = Data()
+        ExceptionUtil.subscribeRunnable({mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main); mBinding.data = Data()},
+            {Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()})
     }
 
     private fun initialize()

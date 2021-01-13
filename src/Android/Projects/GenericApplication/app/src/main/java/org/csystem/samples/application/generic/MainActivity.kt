@@ -7,9 +7,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import dagger.hilt.android.AndroidEntryPoint
 import org.csystem.samples.application.generic.databinding.ActivityMainBinding
 import org.csystem.samples.application.generic.viewmodel.Data
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var mBinding: ActivityMainBinding
 
