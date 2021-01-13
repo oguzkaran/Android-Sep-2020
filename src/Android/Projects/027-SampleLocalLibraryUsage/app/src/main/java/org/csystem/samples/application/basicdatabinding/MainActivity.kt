@@ -11,17 +11,28 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import org.csystem.samples.application.basicdatabinding.databinding.ActivityMainBinding
 import org.csystem.samples.application.basicdatabinding.viewmodel.Device
+import org.csystem.util.exception.ExceptionUtil
+import java.lang.IllegalArgumentException
+import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mBinding: ActivityMainBinding
 
-    private fun showAboutDialog()
+    private fun showDialogProc()
     {
+        if (Random.nextBoolean())
+            throw IllegalArgumentException("Merhaba ben exception")
+
         AlertDialog.Builder(this).apply {
             setTitle(R.string.about_title)
             setMessage(R.string.about_message)
             setPositiveButton(R.string.about_positive_button) { _, _ -> }
         }.show()
+    }
+
+    private fun showAboutDialog()
+    {
+        ExceptionUtil.subscribeRunnable({showDialogProc()}, {Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()})
     }
 
     private fun initSpinner()

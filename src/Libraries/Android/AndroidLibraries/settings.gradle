@@ -1,0 +1,3 @@
+include ':org-csystem-android-util-application'
+include ':app'
+rootProject.name = "AndroidLibraries"
