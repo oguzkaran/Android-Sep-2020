@@ -7,7 +7,8 @@
     <string name="action_exit">Çıkış</string>
 
 
-    <string name="data_name_hint">Name</string>
+    <string name="random_info_min_hint">En küçük değer</string>
+    <string name="random_info_max_hint">En büyük değer</string>
 
 
     <!--Runtime messages-->

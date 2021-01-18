@@ -10,7 +10,8 @@ import androidx.databinding.DataBindingUtil
 import dagger.hilt.android.AndroidEntryPoint
 import org.csystem.samples.application.generic.databinding.ActivityMainBinding
 import org.csystem.samples.application.generic.helper.RandomGeneratorHelper
-import org.csystem.samples.application.generic.viewmodel.Data
+import org.csystem.samples.application.generic.viewmodel.RandomInfo
+import org.csystem.samples.application.generic.viewmodel.ResultInfo
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -27,11 +28,23 @@ class MainActivity : AppCompatActivity() {
             setPositiveButton(R.string.about_positive_button) {_, _->}
         }.show()
     }
+    private fun onDisplayNumberMenuSelected()
+    {
+        val randomInfo = mBinding.randomInfo
+        val randomResultInfo = mBinding.randomResultInfo!!
+        val threadLocalRandomResultInfo = mBinding.threadLocalRandomResultInfo!!
+
+        randomResultInfo.result = randomGeneratorHelper.getRandomNumber(randomInfo!!.min, randomInfo.max)
+        threadLocalRandomResultInfo.result = randomGeneratorHelper.getThreadLocalRandomNumber(randomInfo.min, randomInfo.max)
+        mBinding.invalidateAll() //Değişikliğin görsele yansıtılması için
+    }
 
     private fun initBinding()
     {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        mBinding.data = Data()
+        mBinding.randomInfo = RandomInfo()
+        mBinding.randomResultInfo = ResultInfo()
+        mBinding.threadLocalRandomResultInfo = ResultInfo()
     }
 
     private fun initialize()
@@ -43,8 +56,6 @@ class MainActivity : AppCompatActivity() {
     {
         super.onCreate(savedInstanceState)
         initialize()
-
-        Toast.makeText(this, randomGeneratorHelper.getRandomNumber(1, 100).toString(), Toast.LENGTH_LONG).show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean
@@ -58,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.mainActivityMenuItemAbout -> showAboutDialog()
             R.id.mainActivityMenuItemExit -> finish()
-            R.id.mainActivityMenuItemDisplay -> Toast.makeText(this, mBinding.data.toString(), Toast.LENGTH_LONG).show()
+            R.id.mainActivityMenuItemDisplay -> onDisplayNumberMenuSelected()
         }
         return super.onOptionsItemSelected(item)
     }

@@ -3,8 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
-        <import type="org.csystem.samples.application.generic.viewmodel.Data"/>
-        <variable name="data" type="Data" />
+        <import type="org.csystem.samples.application.generic.converter.IntStringConverter"/>
+        <import type="org.csystem.samples.application.generic.viewmodel.RandomInfo"/>
+        <import type="org.csystem.samples.application.generic.viewmodel.ResultInfo"/>
+        <variable name="randomInfo" type="RandomInfo" />
+        <variable name="randomResultInfo" type="ResultInfo" />
+        <variable name="threadLocalRandomResultInfo" type="ResultInfo" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +20,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/data_name_hint"
-            android:text="@={data.name}" />
+            android:hint="@string/random_info_min_hint"
+            android:inputType="number"
+            android:text="@={IntStringConverter.intToString(randomInfo.min)}" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/random_info_max_hint"
+            android:inputType="number"
+            android:text="@={IntStringConverter.intToString(randomInfo.max)}" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@={IntStringConverter.intToString(randomResultInfo.result)}" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@={IntStringConverter.intToString(threadLocalRandomResultInfo.result)}" />
     </LinearLayout>
 </layout>
