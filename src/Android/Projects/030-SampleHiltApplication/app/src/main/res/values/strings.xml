@@ -6,6 +6,8 @@
     <string name="action_about">Hakkında</string>
     <string name="action_exit">Çıkış</string>
 
+    <string name="button_display_test">Göster</string>
+
 
     <string name="random_info_min_hint">En küçük değer</string>
     <string name="random_info_max_hint">En büyük değer</string>

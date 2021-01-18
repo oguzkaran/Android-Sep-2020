@@ -9,6 +9,8 @@
         <variable name="randomInfo" type="RandomInfo" />
         <variable name="randomResultInfo" type="ResultInfo" />
         <variable name="threadLocalRandomResultInfo" type="ResultInfo" />
+        <variable name="threadLocalRandomInjectResultInfo" type="ResultInfo" />
+        <variable name="randomWithSeedResultInfo" type="ResultInfo" />
     </data>
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,6 +34,13 @@
             android:inputType="number"
             android:text="@={IntStringConverter.intToString(randomInfo.max)}" />
 
+        <Button
+            android:onClick="onDisplayButtonClicked"
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/button_display_test" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,6 +49,16 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@={IntStringConverter.intToString(randomWithSeedResultInfo.result)}" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="@={IntStringConverter.intToString(threadLocalRandomResultInfo.result)}" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@={IntStringConverter.intToString(threadLocalRandomInjectResultInfo.result)}" />
+
     </LinearLayout>
 </layout>

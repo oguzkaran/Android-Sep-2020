@@ -3,6 +3,7 @@ package org.csystem.samples.application.generic
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -33,18 +34,29 @@ class MainActivity : AppCompatActivity() {
         val randomInfo = mBinding.randomInfo
         val randomResultInfo = mBinding.randomResultInfo!!
         val threadLocalRandomResultInfo = mBinding.threadLocalRandomResultInfo!!
+        val threadLocalRandomInjectResultInfo = mBinding.threadLocalRandomInjectResultInfo!!
+        val randomWithSeedResultInfo = mBinding.randomWithSeedResultInfo!!
 
         randomResultInfo.result = randomGeneratorHelper.getRandomNumber(randomInfo!!.min, randomInfo.max)
+        randomWithSeedResultInfo.result = randomGeneratorHelper.getRandomWithSeedNumber(randomInfo.min, randomInfo.max)
         threadLocalRandomResultInfo.result = randomGeneratorHelper.getThreadLocalRandomNumber(randomInfo.min, randomInfo.max)
+        threadLocalRandomInjectResultInfo.result = randomGeneratorHelper.getThreadLocalInjectRandomNumber(randomInfo.min, randomInfo.max)
         mBinding.invalidateAll() //Değişikliğin görsele yansıtılması için
+    }
+
+    private fun initBindObjects()
+    {
+        mBinding.randomInfo = RandomInfo()
+        mBinding.randomResultInfo = ResultInfo()
+        mBinding.threadLocalRandomResultInfo = ResultInfo()
+        mBinding.threadLocalRandomInjectResultInfo = ResultInfo()
+        mBinding.randomWithSeedResultInfo = ResultInfo()
     }
 
     private fun initBinding()
     {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        mBinding.randomInfo = RandomInfo()
-        mBinding.randomResultInfo = ResultInfo()
-        mBinding.threadLocalRandomResultInfo = ResultInfo()
+        initBindObjects()
     }
 
     private fun initialize()
@@ -73,4 +85,6 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    fun onDisplayButtonClicked(view: View) = onDisplayNumberMenuSelected()
 }
