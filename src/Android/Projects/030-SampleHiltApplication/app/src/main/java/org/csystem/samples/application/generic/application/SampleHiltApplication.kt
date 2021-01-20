@@ -4,6 +4,6 @@ import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class GenericApplication : Application() {
-    //...
+class SampleHiltApplication : Application() {
+    val tag = "SampleHiltApplication"
 }

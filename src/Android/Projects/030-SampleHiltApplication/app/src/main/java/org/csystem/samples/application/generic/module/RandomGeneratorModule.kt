@@ -13,9 +13,9 @@ import kotlin.random.Random
 object RandomGeneratorModule {
     @AuthRandomWithSeed
     @Provides
-    fun getRandomWithSeed() = Random(100)
+    fun createRandomWithSeed() = Random(100)
 
     @AuthRandom
     @Provides
-    fun getRandom() = Random(200)
+    fun createRandom() = Random(200)
 }

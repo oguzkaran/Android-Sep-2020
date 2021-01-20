@@ -13,12 +13,15 @@ import org.csystem.samples.application.generic.databinding.ActivityMainBinding
 import org.csystem.samples.application.generic.helper.RandomGeneratorHelper
 import org.csystem.samples.application.generic.viewmodel.RandomInfo
 import org.csystem.samples.application.generic.viewmodel.ResultInfo
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var mBinding: ActivityMainBinding
 
+    @Inject lateinit var dateTime: LocalDateTime
     @Inject lateinit var randomGeneratorHelper: RandomGeneratorHelper
 
     private fun showAboutDialog()
@@ -42,15 +45,18 @@ class MainActivity : AppCompatActivity() {
         threadLocalRandomResultInfo.result = randomGeneratorHelper.getThreadLocalRandomNumber(randomInfo.min, randomInfo.max)
         threadLocalRandomInjectResultInfo.result = randomGeneratorHelper.getThreadLocalInjectRandomNumber(randomInfo.min, randomInfo.max)
         mBinding.invalidateAll() //Değişikliğin görsele yansıtılması için
+        val dateTimeStr = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss").format(dateTime)
+
+        Toast.makeText(this, dateTimeStr, Toast.LENGTH_LONG).show()
     }
 
     private fun initBindObjects()
     {
         mBinding.randomInfo = RandomInfo()
-        mBinding.randomResultInfo = ResultInfo()
-        mBinding.threadLocalRandomResultInfo = ResultInfo()
-        mBinding.threadLocalRandomInjectResultInfo = ResultInfo()
-        mBinding.randomWithSeedResultInfo = ResultInfo()
+        mBinding.randomResultInfo = ResultInfo(dateTime = dateTime)
+        mBinding.threadLocalRandomResultInfo = ResultInfo(dateTime = dateTime)
+        mBinding.threadLocalRandomInjectResultInfo = ResultInfo(dateTime = dateTime)
+        mBinding.randomWithSeedResultInfo = ResultInfo(dateTime = dateTime)
     }
 
     private fun initBinding()

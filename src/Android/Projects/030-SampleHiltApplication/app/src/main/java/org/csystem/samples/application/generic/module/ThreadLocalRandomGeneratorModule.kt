@@ -10,5 +10,5 @@ import java.util.concurrent.ThreadLocalRandom
 @InstallIn(ActivityComponent::class)
 object ThreadLocalRandomGeneratorModule {
     @Provides
-    fun getThreadLocalRandom() = ThreadLocalRandom.current()
+    fun createThreadLocalRandom() = ThreadLocalRandom.current()
 }

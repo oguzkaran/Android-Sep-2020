@@ -3,7 +3,7 @@
     package="org.csystem.samples.application.generic">
 
     <application
-        android:name=".application.GenericApplication"
+        android:name=".application.SampleHiltApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
