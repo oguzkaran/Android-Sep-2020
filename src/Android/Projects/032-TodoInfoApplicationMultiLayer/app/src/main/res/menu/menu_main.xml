@@ -10,9 +10,9 @@
     </group>
     <group>
         <item
-            android:id="@+id/mainActivityMenuItemDisplay"
+            android:id="@+id/mainActivityMenuItemSaveTodo"
             android:orderInCategory="5"
-            android:title="@string/action_display"
+            android:title="@string/action_save"
             app:showAsAction="collapseActionView" />
 
         <item

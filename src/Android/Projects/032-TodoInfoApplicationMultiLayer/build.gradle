@@ -6,7 +6,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.1.1"
+        classpath 'com.android.tools.build:gradle:4.1.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.30-alpha'
 
@@ -15,10 +15,19 @@ buildscript {
     }
 }
 
+ext.jarLibDir = '../libs/jarlibs'
+ext.aarLibDir = '../libs/aarlibs'
+ext.commonDataLib = 'org-csystem-util-data-4.0.0'
+
 allprojects {
     repositories {
         google()
         jcenter()
+
+        flatDir {
+            dirs jarLibDir, aarLibDir
+        }
+
     }
 }
 

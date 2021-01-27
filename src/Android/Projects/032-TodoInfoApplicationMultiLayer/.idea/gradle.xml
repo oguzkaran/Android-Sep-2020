@@ -12,6 +12,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/TodoInfoApplicationDALLib" />
+            <option value="$PROJECT_DIR$/TodoInfoApplicationDataServiceLib" />
             <option value="$PROJECT_DIR$/TodoInfoApplicationEntityLib" />
             <option value="$PROJECT_DIR$/TodoInfoApplicationRepositoryLib" />
             <option value="$PROJECT_DIR$/app" />

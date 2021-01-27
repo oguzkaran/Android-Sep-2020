@@ -2,12 +2,13 @@
     <string name="app_name">GenericApplication</string>
 
     <!-- Menu Items-->
-    <string name="action_display">Göster</string>
+    <string name="action_save">Kaydet</string>
     <string name="action_about">Hakkında</string>
     <string name="action_exit">Çıkış</string>
 
 
-    <string name="data_name_hint">Name</string>
+    <string name="data_title_hint">Başlık</string>
+    <string name="data_description_hint">Açıklama</string>
 
 
     <!--Runtime messages-->

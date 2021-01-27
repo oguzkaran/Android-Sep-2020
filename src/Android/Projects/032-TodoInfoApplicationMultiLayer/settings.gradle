@@ -1,3 +1,4 @@
+include ':TodoInfoApplicationDataServiceLib'
 include ':TodoInfoApplicationDALLib'
 include ':TodoInfoApplicationEntityLib'
 include ':TodoInfoApplicationRepositoryLib'

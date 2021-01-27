@@ -1,5 +1,7 @@
 package org.csystem.application.todoinfo.repository;
 
+import android.content.Context;
+
 import org.csystem.application.todoinfo.entity.TodoInfo;
 
 import java.time.LocalDate;
@@ -9,8 +11,10 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import dagger.hilt.android.qualifiers.ApplicationContext;
+
 public class TodoInfoRepository implements ITodoInfoRepository {
-    private static ArrayList<TodoInfo> ms_todos;
+    private static final ArrayList<TodoInfo> ms_todos = new ArrayList<>();
     private static long m_index;
 
     @Inject
