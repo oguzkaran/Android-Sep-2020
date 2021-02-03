@@ -65,6 +65,7 @@ dependencies {
     //Hilt
     implementation 'com.google.dagger:hilt-android:2.30-alpha'
     annotationProcessor 'com.google.dagger:hilt-android-compiler:2.30-alpha'
+
     //For Kotlin
     kapt 'com.google.dagger:hilt-android-compiler:2.30-alpha'
 }
