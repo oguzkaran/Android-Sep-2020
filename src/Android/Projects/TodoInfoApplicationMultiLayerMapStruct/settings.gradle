@@ -1,0 +1,6 @@
+include ':TodoInfoApplicationDataServiceLib'
+include ':TodoInfoApplicationDALLib'
+include ':TodoInfoApplicationEntityLib'
+include ':TodoInfoApplicationRepositoryLib'
+include ':app'
+rootProject.name = "TodoInfoApplication"
