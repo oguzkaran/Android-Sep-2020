@@ -10,3 +10,5 @@ KAYNAK GÖSTERMEK KOŞULUYLA HER TÜRLÜ ALINTI YAPILABİLİR
 #dependencyinjection
 #oguzkaran
 #Oğuz Karan
+#hilt
+#dagger
