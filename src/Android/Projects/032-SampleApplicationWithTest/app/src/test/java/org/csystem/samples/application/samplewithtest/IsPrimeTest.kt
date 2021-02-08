@@ -15,7 +15,8 @@ class IsPrimeTest(private val mDataInfo: DataInfo) {
     companion object {
         @Parameterized.Parameters
         @JvmStatic
-        fun provideData(): MutableCollection<DataInfo> {
+        fun provideData(): MutableCollection<DataInfo>
+        {
             val data = ArrayList<DataInfo>()
 
             Files.newBufferedReader(Paths.get("setup-prime.txt")).useLines {
