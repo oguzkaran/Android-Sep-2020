@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">033-SampleApplicationWithEspressoTest</string>
+    <string name="button_reverse">Reverse</string>
+    <string name="button_open_message_detail">Open Message Detail</string>
+</resources>

@@ -30,15 +30,15 @@ public class MainActivityListViewTest {
             View view = activity.findViewById(R.id.mainActivityListViewNames);
 
             assertThat(view, notNullValue());
-            assertThat(view, instanceOf(ListView.class));
+            assertThat(view, instanceOf(ListView.class)); //ListView mu?
 
             ListView listView = (ListView)view;
             ListAdapter adapter = listView.getAdapter();
 
-            assertThat(adapter, notNullValue());
-            assertThat(adapter, instanceOf(ArrayAdapter.class));
-            assertThat(adapter.getCount(), greaterThan(2));
-            assertThat(adapter.getCount(), lessThan(5));
+            assertThat(adapter, notNullValue()); //Adapter set edilmiş mi?
+            assertThat(adapter, instanceOf(ArrayAdapter.class)); // ArrayAdapter mı?
+            assertThat(adapter.getCount(), greaterThan(2)); // Adapter'ın eleman sayısı 2(iki)'den büyük mü?
+            assertThat(adapter.getCount(), lessThan(5)); // Adapter'ın eleman sayısı 5(beş)'den küçük mü?
         });
     }
 }

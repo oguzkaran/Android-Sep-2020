@@ -2,6 +2,7 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -59,4 +60,10 @@ dependencies {
     annotationProcessor 'com.google.dagger:hilt-android-compiler:2.30-alpha'
     //For Kotlin
     kapt 'com.google.dagger:hilt-android-compiler:2.30-alpha'
+
+    implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+
+    //For Kotlin
+    kapt "org.mapstruct:mapstruct-processor:1.4.2.Final"
 }
