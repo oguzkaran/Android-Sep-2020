@@ -28,6 +28,16 @@ allprojects {
         flatDir {
             dirs jarLibDir, aarLibDir
         }
+
+        maven {
+            url 'http://raw.github.com/oguzkaran/android-sep-2020-maven-repo/master'
+            /*
+            credentials {
+                username 'test'
+                password '1234'
+            }
+             */
+        }
     }
 }
 

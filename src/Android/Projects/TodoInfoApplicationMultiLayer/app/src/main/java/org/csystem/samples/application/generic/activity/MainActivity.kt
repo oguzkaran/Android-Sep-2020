@@ -16,6 +16,7 @@ import org.csystem.samples.application.generic.R
 import org.csystem.samples.application.generic.databinding.ActivityMainBinding
 import org.csystem.util.data.service.DataServiceException
 import javax.inject.Inject
+import org.csystem.util.exception.ExceptionUtil.*
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -37,24 +38,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveTodo()
     {
-        try {
-            todoApplicationDataService.saveTodo(mBinding.todoInfo!!)
-            loadTodo()
-        }
-        catch (ex: DataServiceException) {
-            Toast.makeText(this, ex.message, Toast.LENGTH_LONG).show()
-        }
+        subscribeRunnable({todoApplicationDataService.saveTodo(mBinding.todoInfo!!); loadTodo()},
+            {Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()})
     }
 
     private fun loadTodo()
     {
-        try {
-            mTodoListAdapter.clear()
-            todoApplicationDataService.findAllTodos().forEach {mTodoListAdapter.add(it)}
-        }
-        catch (ex: DataServiceException) {
-            Toast.makeText(this, ex.message, Toast.LENGTH_LONG).show()
-        }
+        subscribeRunnable({mTodoListAdapter.clear();
+            todoApplicationDataService.findAllTodos().forEach {mTodoListAdapter.add(it)}},
+            {Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()})
 
     }
 

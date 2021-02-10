@@ -11,7 +11,7 @@
 
 	<groupId>org.csystem</groupId>
 	<artifactId>org-csystem-util-exception</artifactId>
-	<version>1.0.0</version>
+	<version>4.0.0</version>
 	<name>ExceptionUtilLib</name>
 	<description>Exception utility library</description>
 

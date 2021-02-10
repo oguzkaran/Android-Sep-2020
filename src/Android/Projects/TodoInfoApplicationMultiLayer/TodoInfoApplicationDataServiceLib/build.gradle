@@ -67,5 +67,5 @@ dependencies {
     //For Kotlin
     kapt "org.mapstruct:mapstruct-processor:1.4.2.Final"
 
-    implementation 'org.csystem:org-csystem-util-data:4.0.1'
+    implementation 'org.csystem:org-csystem-util-data:4.1.0'
 }
