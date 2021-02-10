@@ -11,7 +11,7 @@
 
 	<groupId>org.csystem</groupId>
 	<artifactId>org-csystem-util-datetime</artifactId>
-	<version>1.0.0</version>
+	<version>4.0.0</version>
 	<description>Utility Library for date/time operations</description>
 
 	<properties>

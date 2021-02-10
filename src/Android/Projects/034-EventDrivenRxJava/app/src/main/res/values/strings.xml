@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">034-EventDrivenRxJava</string>
+    <string name="button_increment">Artır</string>
+    <string name="button_decrement">Azalt</string>
+</resources>
