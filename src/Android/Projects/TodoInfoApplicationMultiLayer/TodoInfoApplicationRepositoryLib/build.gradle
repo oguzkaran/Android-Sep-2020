@@ -58,4 +58,6 @@ dependencies {
     annotationProcessor 'com.google.dagger:hilt-android-compiler:2.30-alpha'
     //For Kotlin
     kapt 'com.google.dagger:hilt-android-compiler:2.30-alpha'
+
+    implementation 'org.csystem:org-csystem-util-data:4.0.1'
 }

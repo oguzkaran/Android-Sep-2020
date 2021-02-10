@@ -4,6 +4,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.2'
@@ -20,13 +21,13 @@ ext.aarLibDir = '../libs/aarlibs'
 
 allprojects {
     repositories {
+        mavenLocal()
         google()
         jcenter()
 
         flatDir {
             dirs jarLibDir, aarLibDir
         }
-
     }
 }
 
