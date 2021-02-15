@@ -30,12 +30,11 @@
     <TextView
         android:id="@+id/MAINACTIVITY_TEXTVIEW_RESULT"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_height="wrap_content" />
 
     <Button
         android:onClick="onCalculateButtonClicked"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="Calculate" />
 </LinearLayout>

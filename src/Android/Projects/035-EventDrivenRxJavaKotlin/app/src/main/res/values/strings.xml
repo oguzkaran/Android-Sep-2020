@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">035-EventDrivenRxJavaKotlin</string>
+    <string name="switch_visible">Visible</string>
+    <string name="edit_text_ratio">10</string>
+</resources>
