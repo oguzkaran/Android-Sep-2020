@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 .filter(t -> t.length() > 3)
                 .filter(t -> t.length() < 10);
 
+
         textChangesObservable
                 .map(CharSequence::toString)
                 .doOnNext(this::updateMessageTextView)
