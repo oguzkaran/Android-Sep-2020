@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TodoListSerialization</string>
+    <string name="button_add">Add</string>
+    <string name="edit_text_name_hint">Input your name</string>
+</resources>

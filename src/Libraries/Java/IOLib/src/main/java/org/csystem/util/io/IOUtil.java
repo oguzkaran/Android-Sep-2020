@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
 	FILE        : IOUtil.java
 	AUTHOR      : Oğuz Karan
-	LAST UPDATE : 01.11.2020
+	LAST UPDATE : 22.02.2021
 
 	IOUtil class
 
@@ -35,27 +35,17 @@ public final class IOUtil {
     }
 
 	@SuppressWarnings("unchecked")
-	public static <T> T deserialize(InputStream is)
+	public static <T> T deserialize(InputStream is) throws IOException, ClassNotFoundException
 	{
-		try {
-			ObjectInputStream ois = new ObjectInputStream(is);
+		ObjectInputStream ois = new ObjectInputStream(is);
 
-			return (T) ois.readObject();
-		}
-		catch (Throwable ex) {
-			throw new StreamException("IOUtil.deserialize", ex);
-		}
+		return (T) ois.readObject();
 	}
 
-	public static <T> void serialize(OutputStream os, T t)
+	public static <T> void serialize(OutputStream os, T t) throws IOException
 	{
-		try {
-			ObjectOutputStream oos = new ObjectOutputStream(os);
+		ObjectOutputStream oos = new ObjectOutputStream(os);
 
-			oos.writeObject(t);
-		}
-		catch (Throwable ex) {
-			throw new StreamException("IOUtil.serialize", ex);
-		}
+		oos.writeObject(t);
 	}
 }

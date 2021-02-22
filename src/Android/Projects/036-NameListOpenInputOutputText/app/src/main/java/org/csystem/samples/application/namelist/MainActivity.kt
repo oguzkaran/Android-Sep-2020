@@ -20,7 +20,8 @@ class MainActivity : AppCompatActivity() {
             val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ArrayList())
 
             openFileInput("names.dat").use {
-                BufferedReader(InputStreamReader(it)).useLines { it.forEach { adapter.add(it) } }
+                BufferedReader(InputStreamReader(it, StandardCharsets.UTF_8))
+                        .useLines { it.forEach { adapter.add(it) } }
             }
 
             mListViewNames.adapter = adapter

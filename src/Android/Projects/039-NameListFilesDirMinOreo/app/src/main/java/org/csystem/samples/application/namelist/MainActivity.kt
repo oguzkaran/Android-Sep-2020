@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ArrayList())
-            Files.newBufferedReader(Paths.get(mNamesFile.absolutePath)).useLines {
+            Files.newBufferedReader(Paths.get(mNamesFile.absolutePath), StandardCharsets.UTF_8).useLines {
                 it.forEach { adapter.add(it) }
             }
 

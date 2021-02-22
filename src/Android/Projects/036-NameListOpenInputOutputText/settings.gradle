@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "036-NameListInternalMemoryFile"
+rootProject.name = "NameListInternalMemoryFile"

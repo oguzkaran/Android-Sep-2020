@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
             val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, ArrayList())
 
-            BufferedReader(FileReader(mNamesFile)).useLines {
+            BufferedReader(FileReader(mNamesFile)).useLines { //Default charset kullanır
                 it.forEach { adapter.add(it) }
             }
             mListViewNames.adapter = adapter
