@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">SharedPreferences</string>
+    <string name="button_change_color_text">Renk Değiştir</string>
+    <string name="button_change_title">Başlık Değiştir</string>
+    <string name="button_open_second_activity_text">Aç</string>
+    <string name="edit_text_title_hint">Başlık yazısını giriniz</string>
+</resources>
