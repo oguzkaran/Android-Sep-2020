@@ -6,6 +6,9 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import org.csystem.samples.application.sharedpreferences.databinding.ActivityMainBinding
+import org.csystem.samples.application.sharedpreferences.global.ACTIVITY_SETTINGS
+import org.csystem.samples.application.sharedpreferences.global.BACKGROUND_COLOR
+import org.csystem.samples.application.sharedpreferences.global.TITLE
 import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
@@ -32,9 +35,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun initSetttings()
     {
-        mSharedPrefs = getSharedPreferences("activity_settings", MODE_PRIVATE)
-        mBackgroundColor = mSharedPrefs.getInt("bgcolor", Color.WHITE)
-        title = mSharedPrefs.getString("title", resources.getString(R.string.app_name))
+        mSharedPrefs = getSharedPreferences(ACTIVITY_SETTINGS, MODE_PRIVATE)
+        mBackgroundColor = mSharedPrefs.getInt(BACKGROUND_COLOR, Color.WHITE)
+        title = mSharedPrefs.getString(TITLE, resources.getString(R.string.app_name))
         mBinding.mainActivityLinearLayoutMain.setBackgroundColor(mBackgroundColor)
     }
     private fun initBinding()
@@ -61,8 +64,8 @@ class MainActivity : AppCompatActivity() {
     {
         val edit = mSharedPrefs.edit()
 
-        edit.putString("title", title.toString())
-        edit.putInt("bgcolor", mBackgroundColor)
+        edit.putString(TITLE, title.toString())
+        edit.putInt(BACKGROUND_COLOR, mBackgroundColor)
         edit.apply()
         super.onDestroy()
     }

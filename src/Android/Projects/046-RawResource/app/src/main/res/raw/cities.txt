@@ -1,0 +1,7 @@
+ankara
+istanbul
+izmir
+zonguldak
+bursa
+kastamonu
+muş
