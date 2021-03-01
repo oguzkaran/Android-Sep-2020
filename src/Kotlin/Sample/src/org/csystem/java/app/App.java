@@ -3,23 +3,26 @@ package org.csystem.java.app;
 class App {
     public static void main(String[] args)
     {
-        Class<?> clsInt = int.class;
-        Class<String> clsString = String.class;
-        String s = "ankara";
+         var thread = new Thread(() -> {
+             for (int i = 0; i < 10; ++i) {
+                 System.out.printf("%d ", i);
+                 ThreadUtil.sleep(1000);
+             }
+         });
 
-        Class<?> clsStr = s.getClass();
-
-        System.out.println(clsStr == clsString);
-
-        for (var ctor : clsStr.getDeclaredConstructors()) {
-            for (var parameterTypes : ctor.getParameterTypes())
-                System.out.printf("%s ", parameterTypes.getName());
-
-
-            System.out.println();
-        }
+         thread.start();
     }
 }
 
+class ThreadUtil {
+    public static void sleep(long ms)
+    {
+        try {
+            Thread.sleep(ms);
+        }
+        catch (InterruptedException ignore) {
 
+        }
+    }
+}
 
