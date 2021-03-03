@@ -1,25 +1,48 @@
 /*----------------------------------------------------------------------------------------------------------------------
-    Birden fazla thread için hangi thread'in önce çizelgelemeye gireceğinin bir garantisi yoktur. Aşağıdaki kodu
-    çeşitli girişlerle çalıştırıp sonucu gözlemleyiniz
+    Yukarıdaki problem aşağıdaki gibi Closeable arayüzü ile çözülebilir
 ----------------------------------------------------------------------------------------------------------------------*/
 package org.csystem.app
 
-import org.csystem.util.readInt
+import java.io.Closeable
 
 fun main()
 {
-    val n = readInt("Kaç thread yaratmak istiyorsunuz?")
+    for (i in 1..10)
+        doWork()
 
-    for (i in 1..n)
-        Thread{ threadProc()}.start()
-
-    println("main ends!...")
+    while (true) {
+        for (i in 1..10)
+            doWork()
+    }
 }
 
-fun threadProc()
+fun doWork()
 {
-    val thread = Thread.currentThread()
+    A(10).use {
+        it.bar();
+    }
+}
 
-    for (i in 1..1_000_000)
-        println("${thread.name}:$i")
+class A(private var a: Int) : Closeable {
+    private var mB: B? = null
+
+    private inner class B {
+        fun foo()
+        {
+            println("a = ${a}")
+        }
+    }
+
+    //...
+
+    fun bar()
+    {
+        mB = this.B()
+        mB?.foo()
+    }
+
+    override fun close()
+    {
+        mB = null
+    }
 }

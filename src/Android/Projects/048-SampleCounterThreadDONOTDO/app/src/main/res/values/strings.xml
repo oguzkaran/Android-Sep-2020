@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SampleCounter</string>
+    <string name="button_start_text">Start</string>
+    <string name="text_view_counter_text">0</string>
+</resources>
