@@ -1,46 +1,34 @@
 /*----------------------------------------------------------------------------------------------------------------------
-    Yukarıdaki problem aşağıdaki gibi WeakReference sınıfı kullanılarak çözülebilir
+    static interrupted metodu interrupt flag değerini reset eder. Aşağıdaki programı çalıştırarak durumu gözlemleyiniz
 ----------------------------------------------------------------------------------------------------------------------*/
 package org.csystem.app
 
-import java.lang.ref.WeakReference
-
 fun main()
 {
-    for (i in 1..10)
-        doWork()
+    val thread = Thread{ threadProc()}.apply { start() }
 
-    while (true) {
-        for (i in 1..10)
-            doWork()
-    }
+    Thread.sleep(5000)
+    thread.interrupt()
 }
 
-fun doWork()
+fun threadProc()
 {
-    val a = A(10)
+    var i = 0
 
-    a.bar()
-}
+    val self = Thread.currentThread()
 
-class A(private var a: Int) {
-    private lateinit var mB: B
-
-    private class B(a: A) {
-        private val mWeakReference: WeakReference<A> = WeakReference(a)
-
-        fun foo()
-        {
-            println("a = ${mWeakReference.get()?.a}")
-        }
+    while (!Thread.interrupted()) {
+        print("${i++} ")
+        //...
     }
 
-    //...
+    println()
 
-    fun bar()
-    {
-        mB = B(this)
-        mB.foo()
+    while (!self.isInterrupted) {
+        println("İkinci döngü: ${i++}")
+        Thread.sleep(1000)
+        //...
     }
-}
 
+    println("Thread sonlanıyor!!!")
+}

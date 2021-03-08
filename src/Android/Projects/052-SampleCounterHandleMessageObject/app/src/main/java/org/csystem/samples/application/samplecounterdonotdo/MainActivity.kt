@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mBinding: ActivityMainBinding
     private val mHandler = MyHandler(this)
     private lateinit var mDateTimeTimer: Timer
+    private var mCounterThread: Thread? = null
 
     private class MyHandler(mainActivity: MainActivity) : Handler(Looper.myLooper()!!) {
         private val mWeakReference = WeakReference(mainActivity)
@@ -35,6 +36,7 @@ class MainActivity : AppCompatActivity() {
             when (msg.what) {
                 0 -> mainActivity.title = msg.obj.toString()
                 1 -> handleCounter(mainActivity, msg)
+                2 -> Toast.makeText(mainActivity, "Sayaç sonlandırıldı", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -45,12 +47,17 @@ class MainActivity : AppCompatActivity() {
 
         var counter = 1L
 
-        Thread { //Dikkat activity yok edildiğinde bu thread'in de sonlandırılması gerekir. Henüz yapmadık
-            while (true) {
-                mHandler.sendMessage(mHandler.obtainMessage(1, counter++))
-                Thread.sleep(1000)
+        mCounterThread = Thread {
+            try {
+                while (true) {
+                    mHandler.sendMessage(mHandler.obtainMessage(1, counter++))
+                    Thread.sleep(1000)
+                }
             }
-        }.start()
+            catch (ignore: InterruptedException) {
+                mHandler.sendEmptyMessage(2)
+            }
+        }.apply {start()}
     }
 
     private fun initStartButton()
@@ -91,6 +98,16 @@ class MainActivity : AppCompatActivity() {
     {
         super.onCreate(savedInstanceState)
         initialize()
+    }
+
+    override fun onPause()
+    {
+        if (mCounterThread != null) {
+            mCounterThread?.interrupt()
+            mCounterThread = null
+        }
+
+        super.onPause()
     }
 
 }
