@@ -1,9 +1,9 @@
 /*----------------------------------------------------------------------------------------------------------------------
-    Yukarıdaki problem aşağıdaki gibi Closeable arayüzü ile çözülebilir
+    Yukarıdaki problem aşağıdaki gibi WeakReference sınıfı kullanılarak çözülebilir
 ----------------------------------------------------------------------------------------------------------------------*/
 package org.csystem.app
 
-import java.io.Closeable
+import java.lang.ref.WeakReference
 
 fun main()
 {
@@ -18,18 +18,20 @@ fun main()
 
 fun doWork()
 {
-    A(10).use {
-        it.bar();
-    }
+    val a = A(10)
+
+    a.bar()
 }
 
-class A(private var a: Int) : Closeable {
-    private var mB: B? = null
+class A(private var a: Int) {
+    private lateinit var mB: B
 
-    private inner class B {
+    private class B(a: A) {
+        private val mWeakReference: WeakReference<A> = WeakReference(a)
+
         fun foo()
         {
-            println("a = ${a}")
+            println("a = ${mWeakReference.get()?.a}")
         }
     }
 
@@ -37,12 +39,8 @@ class A(private var a: Int) : Closeable {
 
     fun bar()
     {
-        mB = this.B()
-        mB?.foo()
-    }
-
-    override fun close()
-    {
-        mB = null
+        mB = B(this)
+        mB.foo()
     }
 }
+
