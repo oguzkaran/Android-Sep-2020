@@ -8,15 +8,16 @@ import android.os.Message
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import org.csystem.samples.application.samplecounterdonotdo.databinding.ActivityMainBinding
+import org.csystem.util.scheduler.Scheduler
 import java.lang.ref.WeakReference
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mBinding: ActivityMainBinding
     private val mHandler = MyHandler(this)
-    private lateinit var mDateTimeTimer: Timer
+    private lateinit var mDateTimeScheduler: Scheduler
     private lateinit var mCounterThread: Thread
     private var mCounter = 1L;
 
@@ -60,6 +61,11 @@ class MainActivity : AppCompatActivity() {
         }.apply {start()}
     }
 
+    private fun dateTimeTimerCancelledCallback()
+    {
+        Toast.makeText(this, "Timer sonlandırıldı", Toast.LENGTH_LONG).show()
+    }
+
     private fun dateTimeTimerCallback()
     {
         val dateTimeTimerStr = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss").format(LocalDateTime.now())
@@ -76,10 +82,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun initDateTimeTimer()
     {
-        val task = object: TimerTask() {
-            override fun run() = dateTimeTimerCallback()
-        }
-        mDateTimeTimer = Timer().apply { scheduleAtFixedRate(task, 0, 1000) }
+        mDateTimeScheduler = Scheduler(1, TimeUnit.SECONDS)
+                .apply{schedule ({ dateTimeTimerCallback() }, {dateTimeTimerCancelledCallback()})}
     }
 
     private fun initBinding()
@@ -111,7 +115,7 @@ class MainActivity : AppCompatActivity() {
         if (this::mCounterThread.isInitialized)
             mCounterThread.interrupt()
 
-        mDateTimeTimer.cancel()
+        mDateTimeScheduler.cancel()
         super.onPause()
     }
 
@@ -123,5 +127,4 @@ class MainActivity : AppCompatActivity() {
 
         super.onResume()
     }
-
 }
