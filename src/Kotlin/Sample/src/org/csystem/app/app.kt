@@ -1,34 +1,44 @@
 /*----------------------------------------------------------------------------------------------------------------------
-    static interrupted metodu interrupt flag değerini reset eder. Aşağıdaki programı çalıştırarak durumu gözlemleyiniz
+    Aşağıdaki örneği çalıştırarak sonucun neredeyse hiçbir zaman 2000000 elde edilemeyeceğini gözlemleyiniz
 ----------------------------------------------------------------------------------------------------------------------*/
 package org.csystem.app
 
 fun main()
 {
-    val thread = Thread{ threadProc()}.apply { start() }
+    val sample = Sample()
+    val thread1 = Thread{ sample.threadProc1()}.apply { start() }
+    val thread2 = Thread{ sample.threadProc1()}.apply { start() }
+    val thread3 = Thread{ sample.threadProc2()}.apply { start() }
 
-    Thread.sleep(5000)
-    thread.interrupt()
+    thread1.join()
+    thread2.join()
+    thread3.join()
+
+    println("Size:${sample.size}")
 }
 
-fun threadProc()
-{
-    var i = 0
+class Sample {
+    private val mIntList: MutableList<Int> = ArrayList()
 
-    val self = Thread.currentThread()
+    val size: Int
+        get() = mIntList.size
 
-    while (!Thread.interrupted()) {
-        print("${i++} ")
-        //...
+    fun threadProc1()
+    {
+        for (i in 1..1_000_000)
+            mIntList.add(i)
     }
 
-    println()
-
-    while (!self.isInterrupted) {
-        println("İkinci döngü: ${i++}")
-        Thread.sleep(1000)
-        //...
+    fun threadProc2()
+    {
+        for (i in 1..1_000_000)
+            mIntList.add(i * 10)
     }
 
-    println("Thread sonlanıyor!!!")
+    fun threadProc3()
+    {
+        for (i in 1..1_000_000)
+            mIntList.add(i * 10)
+    }
 }
+

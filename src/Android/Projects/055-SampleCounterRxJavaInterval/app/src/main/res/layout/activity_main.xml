@@ -6,17 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".SplashActivity">
+    tools:context=".MainActivity">
 
-
-    <ImageView
+    <Button
+        android:id="@+id/mainActivityButtonStart"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        app:srcCompat="@drawable/csd" />
+        android:layout_height="wrap_content"
+        android:text="@string/button_start_text" />
 
     <TextView
         android:id="@+id/mainActivityTextViewCounter"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/text_view_counter_text" />
+        android:layout_height="wrap_content" />
 </LinearLayout>
