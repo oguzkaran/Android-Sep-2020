@@ -1,44 +1,36 @@
 /*----------------------------------------------------------------------------------------------------------------------
-    Aşağıdaki örneği çalıştırarak sonucun neredeyse hiçbir zaman 2000000 elde edilemeyeceğini gözlemleyiniz
+    Collections sınıfının synnchronizedXXX metotları collection'ları sarmalayan "thread-safe" collection
+    nesneler elde edilebilir
 ----------------------------------------------------------------------------------------------------------------------*/
 package org.csystem.app
 
+import org.csystem.util.readInt
+import java.util.*
+import kotlin.collections.ArrayList
+
 fun main()
 {
-    val sample = Sample()
-    val thread1 = Thread{ sample.threadProc1()}.apply { start() }
-    val thread2 = Thread{ sample.threadProc1()}.apply { start() }
-    val thread3 = Thread{ sample.threadProc2()}.apply { start() }
+    val list = ArrayList<Int>()
+    val sample = Sample(list)
+    val n = readInt("Kaç thread yaratmak istiyorsunuz?")
+    val threads = ArrayList<Thread>()
 
-    thread1.join()
-    thread2.join()
-    thread3.join()
+    for (i in 1..n)
+        threads.add(Thread{sample.threadProc()}.apply { start() })
 
-    println("Size:${sample.size}")
+    for (t in threads)
+        t.join()
+
+    println("Size:${list.size}")
 }
 
-class Sample {
-    private val mIntList: MutableList<Int> = ArrayList()
+class Sample(intList: MutableList<Int>) {
+    private val mIntList = Collections.synchronizedList(intList)
 
-    val size: Int
-        get() = mIntList.size
-
-    fun threadProc1()
+    fun threadProc()
     {
         for (i in 1..1_000_000)
             mIntList.add(i)
-    }
-
-    fun threadProc2()
-    {
-        for (i in 1..1_000_000)
-            mIntList.add(i * 10)
-    }
-
-    fun threadProc3()
-    {
-        for (i in 1..1_000_000)
-            mIntList.add(i * 10)
     }
 }
 
