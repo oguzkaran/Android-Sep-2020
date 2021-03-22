@@ -1,36 +1,34 @@
 /*----------------------------------------------------------------------------------------------------------------------
-    Collections sınıfının synnchronizedXXX metotları collection'ları sarmalayan "thread-safe" collection
-    nesneler elde edilebilir
+    fixed thread havuzları belirli bir sayıda thread'i çalıştırmak için kullanılmaktadır. n tane thread'den oluşan
+    bir fixed thread havuzunda n adet thread de çalışır durumdaysa, n + 1-inci thread bekler ve ilk boşalan thread
+    ile çalıştırılır
 ----------------------------------------------------------------------------------------------------------------------*/
 package org.csystem.app
 
 import org.csystem.util.readInt
-import java.util.*
-import kotlin.collections.ArrayList
+import java.util.concurrent.Executors
+import kotlin.random.Random
 
 fun main()
 {
-    val list = ArrayList<Int>()
-    val sample = Sample(list)
-    val n = readInt("Kaç thread yaratmak istiyorsunuz?")
-    val threads = ArrayList<Thread>()
+    val m = readInt("Kaç tane thread yaratılsın?")
+    val threadPool = Executors.newCachedThreadPool()
 
-    for (i in 1..n)
-        threads.add(Thread{sample.threadProc()}.apply { start() })
+    for (i in 1..m)
+        threadPool.submit{ threadProc("t$i")}
 
-    for (t in threads)
-        t.join()
-
-    println("Size:${list.size}")
+    threadPool.shutdown()
 }
 
-class Sample(intList: MutableList<Int>) {
-    private val mIntList = Collections.synchronizedList(intList)
+fun threadProc(str: String)
+{
+    val name = Thread.currentThread().name
 
-    fun threadProc()
-    {
-        for (i in 1..1_000_000)
-            mIntList.add(i)
+    for (i in 1..5) {
+        println("$str:$name:${Random.nextInt(100)}")
+        Thread.sleep(1000)
     }
+    println()
 }
+
 
