@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
     {
         mBinding.mainActivityButtonStart.isEnabled = false
 
-        mCounterFuture = threadPoolProvider.get().submit {
+        mCounterFuture = threadPool.submit {
             try {
                 while (true) {
                     mHandler.sendMessage(mHandler.obtainMessage(1, mCounter++))
@@ -111,7 +111,7 @@ class MainActivity : AppCompatActivity() {
         initViews()
     }
 
-    @Inject lateinit var threadPoolProvider: Provider<ExecutorService>
+    @Inject lateinit var threadPool: ExecutorService
 
     override fun onCreate(savedInstanceState: Bundle?)
     {

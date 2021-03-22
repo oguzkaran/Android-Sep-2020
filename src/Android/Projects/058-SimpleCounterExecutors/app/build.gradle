@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -59,10 +61,14 @@ dependencies {
 
 
     //Dagger
-    implementation 'com.google.dagger:dagger:2.30'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.30'
+    implementation 'com.google.dagger:dagger:2.33'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.33'
 
-//Hilt
-    implementation 'com.google.dagger:hilt-android:2.30-alpha'
-    annotationProcessor 'com.google.dagger:hilt-android-compiler:2.30-alpha'
+    //Hilt
+    implementation 'com.google.dagger:hilt-android:2.33-beta'
+    annotationProcessor 'com.google.dagger:hilt-android-compiler:2.33-beta'
+
+
+    //For Kotlin
+    kapt 'com.google.dagger:hilt-android-compiler:2.33-beta'
 }
