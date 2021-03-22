@@ -15,8 +15,11 @@ import org.csystem.samples.application.samplecounter.databinding.ActivityMainBin
 import java.lang.ref.WeakReference
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.concurrent.ExecutorService
 import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
+import javax.inject.Provider
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -52,7 +55,7 @@ class MainActivity : AppCompatActivity() {
     {
         mBinding.mainActivityButtonStart.isEnabled = false
 
-        mCounterFuture = SampleCounterApplication.threadPool.submit {
+        mCounterFuture = threadPoolProvider.get().submit {
             try {
                 while (true) {
                     mHandler.sendMessage(mHandler.obtainMessage(1, mCounter++))
@@ -108,7 +111,7 @@ class MainActivity : AppCompatActivity() {
         initViews()
     }
 
-    //@Inject lateinit var threadPool: ExecutorService
+    @Inject lateinit var threadPoolProvider: Provider<ExecutorService>
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
