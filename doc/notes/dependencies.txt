@@ -8,25 +8,35 @@ compileOptions {
 
 
 //Module build gradle dependencies
-coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
+coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
 #############################################################################
+
+plugins  { 
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    //...
+}
 
 //Hilt dependencies
 
 //Module build gradle dosyası
 
 //Dagger
-implementation 'com.google.dagger:dagger:2.30'
-annotationProcessor 'com.google.dagger:dagger-compiler:2.30'
+implementation 'com.google.dagger:dagger:2.33'
+annotationProcessor 'com.google.dagger:dagger-compiler:2.33'
 
 //Hilt
-implementation 'com.google.dagger:hilt-android:2.30-alpha'
-annotationProcessor 'com.google.dagger:hilt-android-compiler:2.30-alpha'
+implementation 'com.google.dagger:hilt-android:2.33-beta'
+annotationProcessor 'com.google.dagger:hilt-android-compiler:2.33-beta'
 
 //Project build gradle
 
-classpath 'com.google.dagger:hilt-android-gradle-plugin:2.30-alpha'
+classpath 'com.google.dagger:hilt-android-gradle-plugin:2.33-beta'
+
+
+//For Kotlin
+kapt 'com.google.dagger:hilt-android-compiler:2.33-beta'
 
 
 #############################################################################
