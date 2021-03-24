@@ -5,69 +5,91 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
-import org.csystem.samples.application.samplecounter.application.SampleCounterApplication
 import org.csystem.samples.application.samplecounter.databinding.ActivityMainBinding
+import org.csystem.util.scheduler.Scheduler
 import java.lang.ref.WeakReference
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.concurrent.Callable
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import javax.inject.Provider
+import kotlin.random.Random
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var mBinding: ActivityMainBinding
     private val mHandler = MyHandler(this)
     private var mStop = false
-    private lateinit var mCounterFuture: Future<*>
-    private var mCounter = 1L;
+    private lateinit var mRandomGeneratorInitFuture: Future<*>
 
     @Inject lateinit var threadPool: ExecutorService
 
     private class MyHandler(mainActivity: MainActivity) : Handler(Looper.myLooper()!!) {
         private val mWeakReference = WeakReference(mainActivity)
-
-        private fun handleCounter(mainActivity: MainActivity, msg: Message)
-        {
-            val counter = msg.obj.toString().toLong()
-
-            mainActivity.mBinding.mainActivityTextViewCounter.text = counter.toString()
-            Toast.makeText(mainActivity, counter.toString(), Toast.LENGTH_SHORT).show()
-        }
-
         override fun handleMessage(msg: Message)
         {
             val mainActivity = mWeakReference.get()!!
-
             when (msg.what) {
-                1 -> handleCounter(mainActivity, msg)
-                2 -> Toast.makeText(mainActivity, "Sayaç sonlandırıldı", Toast.LENGTH_LONG).show()
+                0 -> mainActivity.mBinding.mainActivityButtonStart.isEnabled =  true
+                1 -> ArrayAdapter(mainActivity, android.R.layout.simple_list_item_1, msg.obj as ArrayList<*>).apply {
+                        mainActivity.mBinding.mainActivityListViewTexts.adapter = this
+                    }
+                2 -> "${mainActivity.mBinding.mainActivityTextViewWaiting.text}.".apply {
+                    mainActivity.mBinding.mainActivityTextViewWaiting.text = this
+                }
             }
         }
+    }
+
+    private fun generateRandomStringEN(n: Int) : String
+    {
+        val sb = StringBuilder(n)
+
+        fun getChar() = when (Random.nextBoolean()) {
+            true -> Random.nextInt('A'.toInt(), ('Z' + 1).toInt()).toChar()
+            else -> Random.nextInt('a'.toInt(), ('z' + 1).toInt()).toChar()
+        }
+        for (i in 1..n)
+            sb.append(getChar())
+
+        return sb.toString()
+    }
+
+    private fun randomGeneratorThreadCallback(scheduler: Scheduler, count: Int, minLength: Int, maxLength: Int) : ArrayList<String> =
+        ArrayList<String>().apply {
+            scheduler.schedule { mHandler.sendEmptyMessage(2) }
+            for (i in 1..count) {
+                this.add(generateRandomStringEN(Random.nextInt(minLength, maxLength)))
+                Thread.sleep(Random.nextLong(2000))
+            }
+        }
+
+    private fun randomGeneratorInitThreadCallback(count: Int, minLength: Int, maxLength: Int)
+    {
+        val scheduler = Scheduler(1, TimeUnit.SECONDS)
+        mBinding.mainActivityTextViewWaiting.text = ""
+        val words = threadPool.submit(Callable{randomGeneratorThreadCallback(scheduler, count, minLength, maxLength)}).get()
+
+        scheduler.cancel()
+        mHandler.sendMessage(mHandler.obtainMessage(1, words))
+        mHandler.sendEmptyMessage(0)
     }
 
     private fun onStartButtonClicked()
     {
         mBinding.mainActivityButtonStart.isEnabled = false
-
-        mCounterFuture = threadPool.submit {
-            try {
-                while (true) {
-                    mHandler.sendMessage(mHandler.obtainMessage(1, mCounter++))
-                    Thread.sleep(1000)
-                }
-            }
-            catch (ignore: InterruptedException) {
-                mHandler.sendEmptyMessage(2)
-            }
-        }
+        val count = mBinding.mainActivityEditTextCount.text.toString().toInt()
+        val minLength = mBinding.mainActivityEditTextMinLength.text.toString().toInt()
+        val maxLength = mBinding.mainActivityEditTextMaxLength.text.toString().toInt()
+        mRandomGeneratorInitFuture = threadPool.submit {randomGeneratorInitThreadCallback(count, minLength, maxLength)}
     }
 
     private fun dateTimeTimerCancelledCallback()
@@ -104,7 +126,7 @@ class MainActivity : AppCompatActivity() {
     private fun initViews()
     {
         initStartButton()
-        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT //Bu activity sadece PORTRAIT görünümde çalışır
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }
 
     private fun initialize()
@@ -112,8 +134,6 @@ class MainActivity : AppCompatActivity() {
         initBinding()
         initViews()
     }
-
-
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -123,9 +143,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause()
     {
-        if (this::mCounterFuture.isInitialized)
-            mCounterFuture.cancel(true)
+        if (this::mRandomGeneratorInitFuture.isInitialized)
+            mRandomGeneratorInitFuture.cancel(true)
 
+        mBinding.mainActivityButtonStart.isEnabled = true
         mStop = true
         super.onPause()
     }
@@ -133,8 +154,6 @@ class MainActivity : AppCompatActivity() {
     override fun onResume()
     {
         initDateTimeTimer()
-        if (this::mCounterFuture.isInitialized)
-            onStartButtonClicked()
 
         super.onResume()
     }

@@ -1,34 +1,60 @@
 /*----------------------------------------------------------------------------------------------------------------------
-    fixed thread havuzları belirli bir sayıda thread'i çalıştırmak için kullanılmaktadır. n tane thread'den oluşan
-    bir fixed thread havuzunda n adet thread de çalışır durumdaysa, n + 1-inci thread bekler ve ilk boşalan thread
-    ile çalıştırılır
+    Aşağıdaki örnekte bir thread arka planda asenkron olarak kelimeler üretip bir listede toplamış bu listeyi
+    döndürmüştür
 ----------------------------------------------------------------------------------------------------------------------*/
 package org.csystem.app
 
 import org.csystem.util.readInt
+import java.util.*
+import java.util.concurrent.Callable
 import java.util.concurrent.Executors
+import kotlin.collections.ArrayList
 import kotlin.random.Random
 
 fun main()
 {
-    val m = readInt("Kaç tane thread yaratılsın?")
-    val threadPool = Executors.newCachedThreadPool()
+    val threadExecutor = Executors.newSingleThreadExecutor()
 
-    for (i in 1..m)
-        threadPool.submit{ threadProc("t$i")}
+    while (true) {
+        val n = readInt("Bir sayı giriniz:")
+        if (n == 0)
+            break
+        val minLength = readInt("Minimum uzunluk?")
+        val maxLength = readInt("Maximum uzunluk?")
+        val timer = Timer()
+        val words = threadExecutor.submit(Callable{ randomTextGeneratorCallback(timer, n, minLength, maxLength) }).get()
 
-    threadPool.shutdown()
-}
-
-fun threadProc(str: String)
-{
-    val name = Thread.currentThread().name
-
-    for (i in 1..5) {
-        println("$str:$name:${Random.nextInt(100)}")
-        Thread.sleep(1000)
+        timer.cancel()
+        println("\n${words.joinToString(separator = "-")}")
+        println("////////////////////")
     }
-    println()
+
+    threadExecutor.shutdown()
 }
+
+fun generateRandomStringEN(n: Int) : String
+{
+    val sb = StringBuilder(n)
+
+    fun getChar() = when (Random.nextBoolean()) {
+        true -> Random.nextInt('A'.toInt(), ('Z' + 1).toInt()).toChar()
+        else -> Random.nextInt('a'.toInt(), ('z' + 1).toInt()).toChar()
+    }
+    for (i in 1..n)
+        sb.append(getChar())
+
+    return sb.toString()
+}
+
+fun randomTextGeneratorCallback(timer: Timer, n: Int, textMinLength: Int, textMaxLength: Int) =
+        ArrayList<String>().apply {
+            timer.schedule(object: TimerTask() {
+                override fun run() = print(".")
+            }, 0, 1000)
+            for (i in 1..n) {
+                this.add(generateRandomStringEN(Random.nextInt(textMinLength, textMaxLength)))
+                Thread.sleep(Random.nextLong(2000))
+            }
+        }
 
 
