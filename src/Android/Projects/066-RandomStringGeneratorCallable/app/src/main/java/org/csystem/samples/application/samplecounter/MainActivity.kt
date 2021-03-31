@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -32,12 +33,12 @@ class MainActivity : AppCompatActivity() {
 
     private data class ParamInfo(val count: Int, val minLength: Int, val maxLength: Int)
 
-    @Inject lateinit var threadPool: ExecutorService
+    @Inject
+    lateinit var threadPool: ExecutorService
 
     private class MyHandler(mainActivity: MainActivity) : Handler(Looper.myLooper()!!) {
         private val mWeakReference = WeakReference(mainActivity)
-        override fun handleMessage(msg: Message)
-        {
+        override fun handleMessage(msg: Message) {
             val mainActivity = mWeakReference.get()!!
 
             "${mainActivity.mBinding.mainActivityTextViewWaiting.text}.".apply {
@@ -47,8 +48,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun generateRandomStringEN(n: Int) : String
-    {
+    private fun generateRandomStringEN(n: Int): String {
         val sb = StringBuilder(n)
 
         fun getChar() = when (Random.nextBoolean()) {
@@ -61,30 +61,30 @@ class MainActivity : AppCompatActivity() {
         return sb.toString()
     }
 
-    private fun randomGeneratorThreadCallback(scheduler: Scheduler, paramInfo: ParamInfo) : ArrayList<String> =
-        ArrayList<String>().apply {
+    private fun randomGeneratorThreadCallback(scheduler: Scheduler, paramInfo: ParamInfo): ArrayList<String> {
+        return ArrayList<String>().apply {
             scheduler.schedule { mHandler.sendEmptyMessage(2) }
             for (i in 1..paramInfo.count) {
                 this.add(generateRandomStringEN(Random.nextInt(paramInfo.minLength, paramInfo.maxLength)))
                 Thread.sleep(Random.nextLong(2000))
             }
         }
+    }
 
     private fun randomGeneratorInitThreadCallback(paramInfo: ParamInfo)
     {
         val scheduler = Scheduler(1, TimeUnit.SECONDS)
 
-        mBinding.mainActivityTextViewWaiting.text = ""
-
         Observable.just(paramInfo)
                 .subscribeOn(Schedulers.io())
-                .map{randomGeneratorThreadCallback(scheduler, it)}
-                .doFinally{scheduler.cancel()}
+                .map { randomGeneratorThreadCallback(scheduler, it) }
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe ({ ArrayAdapter(this, android.R.layout.simple_list_item_1, it).apply {
-                    mBinding.mainActivityListViewTexts.adapter = this
+                .doFinally { scheduler.cancel() }
+                .subscribe({
+                    ArrayAdapter(this, android.R.layout.simple_list_item_1, it).apply {
+                        mBinding.mainActivityListViewTexts.adapter = this
                     }
-                }, {}, {mBinding.mainActivityButtonStart.isEnabled =  true})
+                }, { ex -> Toast.makeText(this, ex.message, Toast.LENGTH_LONG).show() }, { mBinding.mainActivityButtonStart.isEnabled = true })
     }
 
     private fun onStartButtonClicked()
@@ -94,6 +94,7 @@ class MainActivity : AppCompatActivity() {
         val minLength = mBinding.mainActivityEditTextMinLength.text.toString().toInt()
         val maxLength = mBinding.mainActivityEditTextMaxLength.text.toString().toInt()
 
+        mBinding.mainActivityTextViewWaiting.text = ""
         mRandomGeneratorInitFuture = threadPool.submit {randomGeneratorInitThreadCallback(ParamInfo(count, minLength, maxLength))}
     }
 

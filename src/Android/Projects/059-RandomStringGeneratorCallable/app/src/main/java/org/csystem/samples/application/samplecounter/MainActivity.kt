@@ -76,7 +76,6 @@ class MainActivity : AppCompatActivity() {
     {
         val scheduler = Scheduler(1, TimeUnit.SECONDS)
 
-        mBinding.mainActivityTextViewWaiting.text = ""
         val words = threadPool.submit(Callable{randomGeneratorThreadCallback(scheduler, count, minLength, maxLength)}).get()
 
         scheduler.cancel()
@@ -90,6 +89,8 @@ class MainActivity : AppCompatActivity() {
         val count = mBinding.mainActivityEditTextCount.text.toString().toInt()
         val minLength = mBinding.mainActivityEditTextMinLength.text.toString().toInt()
         val maxLength = mBinding.mainActivityEditTextMaxLength.text.toString().toInt()
+
+        mBinding.mainActivityTextViewWaiting.text = ""
         mRandomGeneratorInitFuture = threadPool.submit {randomGeneratorInitThreadCallback(count, minLength, maxLength)}
     }
 
