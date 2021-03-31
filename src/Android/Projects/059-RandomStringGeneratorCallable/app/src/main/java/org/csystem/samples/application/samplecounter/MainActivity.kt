@@ -75,6 +75,7 @@ class MainActivity : AppCompatActivity() {
     private fun randomGeneratorInitThreadCallback(count: Int, minLength: Int, maxLength: Int)
     {
         val scheduler = Scheduler(1, TimeUnit.SECONDS)
+
         mBinding.mainActivityTextViewWaiting.text = ""
         val words = threadPool.submit(Callable{randomGeneratorThreadCallback(scheduler, count, minLength, maxLength)}).get()
 
