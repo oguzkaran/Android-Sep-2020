@@ -1,58 +1,39 @@
 /*----------------------------------------------------------------------------------------------------------------------
-    Yukarıdaki problemin Semaphore kullanarak kuyruklu çözümü
+    Aşağıdaki örnekte bir couritine içerisinde başka bir coroutine yaratılmış, ve runBlocking ile yaratılan
+    couroutine doWork içerisinde yaratılan coroutine'i beklemektedir. Bu durumda derleyici ve "Virtual machine" optimize
+    ederek couroutine sayısını düşürebilir
 ----------------------------------------------------------------------------------------------------------------------*/
 package org.csystem.app
 
-import java.util.concurrent.Semaphore
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import org.csystem.util.readInt
 import kotlin.random.Random
 
-const val QUEUE_SIZE = 10
+suspend fun main() = run().apply { println("run çağrıldı") }.join()
 
-class ProducerConsumer {
-    private var mQueue = IntArray(QUEUE_SIZE)
-    private var mCount: Int = 0
-    private val mProducerSemaphore = Semaphore(QUEUE_SIZE, true)
-    private val mConsumerSemaphore = Semaphore(0)
-    private var mHead = 0
-    private var mTail = 0
+fun doWork()  = runBlocking {
+    var sum = 0
+    val n = readInt("Bir sayı giriniz:")
 
-    fun producerThreadProc()
-    {
-        do {
-            mProducerSemaphore.acquire(mQueue.size)
-            mQueue[mHead++] = mCount++
-            mHead %= mQueue.size
-            mConsumerSemaphore.release()
-            Thread.sleep(Random.nextLong(0, 500))
-        } while (mCount != 100)
-    }
-
-    fun consumerThreadProc()
-    {
-        do {
-            mConsumerSemaphore.acquire()
-            val value = mQueue[mTail++]
-            mTail %= mQueue.size
-            mProducerSemaphore.release(mQueue.size)
+    val job = GlobalScope.launch {
+        for (i in 1..n) {
+            val value = Random.nextInt(100)
             print("$value ")
-            Thread.sleep(Random.nextLong(0, 500))
-        } while (value != 99)
+            sum += value
+            delay(Random.nextLong(1, 1200))
+        }
+        println()
     }
 
-    fun run()
-    {
-        Thread{producerThreadProc()}.apply { start() }
-        Thread{consumerThreadProc()}.apply { start() }
+    job.join()
+    println("Toplam:$sum")
+}
+
+fun run() =
+    GlobalScope.launch {
+        doWork()
     }
-}
-
-fun main()
-{
-    val pc = ProducerConsumer()
-
-    pc.run()
-}
-
-
-
 
