@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.*
 import org.csystem.samples.application.samplecounter.databinding.ActivityMainBinding
 import org.csystem.util.scheduler.Scheduler
