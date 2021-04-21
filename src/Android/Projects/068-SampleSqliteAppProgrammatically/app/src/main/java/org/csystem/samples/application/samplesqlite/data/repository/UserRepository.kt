@@ -21,7 +21,7 @@ object UserRepository : IUserRepository {
 
     const val CREATE_TABLE = """CREATE TABLE ${TABLE_NAME} 
         (${ID} integer primary key autoincrement,
-        ${NAME} text not null, ${USERNAME} text not null,
+        ${NAME} text not null, ${USERNAME} text not null unique,
         ${PASSWORD} text not null, ${REGISTER_DATE} integer not null);"""
 
     private fun getContentValues(u: User?) : ContentValues
@@ -79,7 +79,7 @@ object UserRepository : IUserRepository {
         }
     }
 
-    override fun findUsersSortByRegisterDate(): Iterable<User>
+    override fun findUsersSortByRegisterDate(): MutableIterable<User>
     {
         val projection = arrayOf(ID, NAME, USERNAME, PASSWORD, REGISTER_DATE)
         var cursor = db.query(TABLE_NAME, projection, null, null, null, null, REGISTER_DATE + " desc")
@@ -97,31 +97,72 @@ object UserRepository : IUserRepository {
         }
     }
 
+    override fun delete(user: User) = deleteById(user.userId)
+
+    override fun deleteById(id: Long)
+    {
+        db.delete(TABLE_NAME, "$ID=$id", null)
+    }
+
+    override fun deleteAll()
+    {
+        db.delete(TABLE_NAME, null, null)
+    }
+
+
+    override fun findUserByUsername(username: String): Optional<User>
+    {
+        val projection = arrayOf(ID, NAME, USERNAME, PASSWORD, REGISTER_DATE)
+        var cursor = db.query(TABLE_NAME, projection, "$USERNAME = '$username'", null, null, null, null)
+
+        cursor.use {
+            val users = ArrayList<User>()
+
+            if (it == null || !it.moveToFirst())
+                return Optional.empty()
+
+            return Optional.of(getUser(cursor))
+        }
+    }
+
+    override fun findUsersByUsernameContains(text: String): MutableIterable<User>
+    {
+        val projection = arrayOf(ID, NAME, USERNAME, PASSWORD, REGISTER_DATE)
+        var cursor = db.query(TABLE_NAME, projection, "$USERNAME like '%$text%'", null, null, null, null)
+
+        cursor.use {
+            val users = ArrayList<User>()
+
+            if (it == null || !it.moveToFirst())
+                return users
+            do
+                users.add(getUser(it))
+            while (it.moveToNext())
+
+            return users
+        }
+    }
+
+    override fun existsByUsername(username: String) = findUserByUsername(username).isPresent
+
+    override fun deleteAllUsers() = db.delete(TABLE_NAME, null, null)
+
     override fun <S : User?> save(entities: MutableIterable<S>?): MutableIterable<S> {
         TODO("Not yet implemented")
     }
 
-    override fun count(): Long {
+    override fun count(): Long
+    {
         TODO("Not yet implemented")
     }
 
-    override fun delete(entity: User?) {
+    override fun deleteAll(entities: MutableIterable<User>?)
+    {
         TODO("Not yet implemented")
     }
 
-    override fun deleteAll() {
-        TODO("Not yet implemented")
-    }
-
-    override fun deleteAll(entities: MutableIterable<User>?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun deleteById(id: Long?) {
-        TODO("Not yet implemented")
-    }
-
-    override fun exitsById(id: Long?): Boolean {
+    override fun exitsById(id: Long?): Boolean
+    {
         TODO("Not yet implemented")
     }
 
@@ -129,7 +170,8 @@ object UserRepository : IUserRepository {
         TODO("Not yet implemented")
     }
 
-    override fun findById(id: Long?): Optional<User> {
+    override fun findById(id: Long?): Optional<User>
+    {
         TODO("Not yet implemented")
     }
 }

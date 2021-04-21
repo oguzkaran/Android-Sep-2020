@@ -7,11 +7,12 @@ import org.csystem.samples.application.samplesqlite.data.entity.User
 import org.csystem.samples.application.samplesqlite.data.repository.UserRepository
 import org.csystem.util.data.repository.RepositoryException
 import java.io.Closeable
+import java.util.*
 
 class SampleSqLiteAppDAL(context: Context) : Closeable {
     companion object {
         private const val DATABASE_NAME = "samplesqliteappdb.sqlite3"
-        private const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 2
     }
 
     private val mDatabaseHelper = DatabaseHelper(context, DATABASE_NAME, DATABASE_VERSION)
@@ -59,7 +60,7 @@ class SampleSqLiteAppDAL(context: Context) : Closeable {
         }
     }
 
-    fun findAll() : Iterable<User>
+    fun findAll() : MutableIterable<User>
     {
         try {
             return UserRepository.findAll()
@@ -69,7 +70,7 @@ class SampleSqLiteAppDAL(context: Context) : Closeable {
         }
     }
 
-    fun findUsersSortByRegisterDate() : Iterable<User>
+    fun findUsersSortByRegisterDate() : MutableIterable<User>
     {
         try {
             return UserRepository.findUsersSortByRegisterDate()
@@ -79,6 +80,76 @@ class SampleSqLiteAppDAL(context: Context) : Closeable {
         }
     }
 
+    fun delete(user: User)
+    {
+        try {
+            UserRepository.delete(user)
+        }
+        catch (ex: Throwable) {
+            throw RepositoryException("SampleSqLiteAppDAL.delete", ex)
+        }
+    }
+
+    fun deleteById(id: Long)
+    {
+        try {
+            UserRepository.deleteById(id)
+        }
+        catch (ex: Throwable) {
+            throw RepositoryException("SampleSqLiteAppDAL.deleteById", ex)
+        }
+    }
+
+    fun deleteAll()
+    {
+        try {
+            UserRepository.deleteAll()
+        }
+        catch (ex: Throwable) {
+            throw RepositoryException("SampleSqLiteAppDAL.deleteAll", ex)
+        }
+    }
+
+    fun deleteAllUsers() : Int
+    {
+        try {
+            return UserRepository.deleteAllUsers()
+        }
+        catch (ex: Throwable) {
+            throw RepositoryException("SampleSqLiteAppDAL.deleteAllUsers", ex)
+        }
+    }
+
+    fun findUserByUsername(username: String) : Optional<User>
+    {
+        try {
+            return UserRepository.findUserByUsername(username)
+        }
+        catch (ex: Throwable) {
+            throw RepositoryException("SampleSqLiteAppDAL.findUserByUsername", ex)
+        }
+    }
+
+    fun findUsersByUsernameContains(text: String) : MutableIterable<User>
+    {
+        try {
+            return UserRepository.findUsersByUsernameContains(text)
+        }
+        catch (ex: Throwable) {
+            throw RepositoryException("SampleSqLiteAppDAL.findUsersByUsernameContains", ex)
+        }
+    }
+
+
+    fun existsByUsername(username: String) : Boolean
+    {
+        try {
+            return UserRepository.existsByUsername(username)
+        }
+        catch (ex: Throwable) {
+            throw RepositoryException("SampleSqLiteAppDAL.existsByUsername", ex)
+        }
+    }
 
     override fun close()
     {

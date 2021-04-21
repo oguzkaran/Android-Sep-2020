@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import org.csystem.samples.application.samplesqlite.data.dal.SampleSqLiteAppDAL
 import org.csystem.samples.application.samplesqlite.data.entity.User
 import org.csystem.samples.application.samplesqlite.databinding.ActivityRegisterBinding
+import org.csystem.util.data.repository.RepositoryException
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var mBinding: ActivityRegisterBinding
@@ -13,15 +14,24 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun onRegisterButtonClicked()
     {
-        val name = mBinding.registerActivityEditTextName.text.toString()
-        val username = mBinding.registerActivityEditTextUsername.text.toString()
-        val password = mBinding.registerActivityEditTextPassword.text.toString()
-
-        val user = User(name = name, username = username, password = password)
-
-        mSQLiteAppDDAL.open().use { it.saveUser(user) }
-
-        Toast.makeText(this, user.userId.toString(), Toast.LENGTH_LONG).show()
+        try {
+            mSQLiteAppDDAL.open().use {
+                val username = mBinding.registerActivityEditTextUsername.text.toString()
+                if (!it.existsByUsername(username)) {
+                    val name = mBinding.registerActivityEditTextName.text.toString()
+                    val password = mBinding.registerActivityEditTextPassword.text.toString()
+                    val user = User(name = name, username = username, password = password)
+                    it.saveUser(user)
+                    Toast.makeText(this, user.userId.toString(), Toast.LENGTH_LONG).show()
+                    finish()
+                }
+                else
+                    Toast.makeText(this, R.string.error_existinguser_text, Toast.LENGTH_LONG).show()
+            }
+        }
+        catch (ex: RepositoryException) {
+            Toast.makeText(this, R.string.error_in_db_text, Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun initButtons()
@@ -47,7 +57,8 @@ class RegisterActivity : AppCompatActivity() {
         mSQLiteAppDDAL = SampleSqLiteAppDAL(this)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
         initialize()
     }

@@ -8,24 +8,14 @@ import org.csystem.samples.application.samplesqlite.data.dal.SampleSqLiteAppDAL
 import org.csystem.samples.application.samplesqlite.databinding.ActivityMainBinding
 import org.csystem.util.data.repository.RepositoryException
 
-private const val REQUEST_REGISTER = 1
-
 class MainActivity : AppCompatActivity() {
     private lateinit var mBinding: ActivityMainBinding
-    private lateinit var mSQLiteAppDDAL: SampleSqLiteAppDAL
-    private fun loadUsers() //asenkron olacak
-    {
-        try {
-
-        }
-        catch (ex: RepositoryException) {
-            Toast.makeText(this, ex.message, Toast.LENGTH_LONG).show()
-        }
-    }
+    private lateinit var mSQLiteAppDDAL: SampleSqLiteAppDAL //TODO: Dependency injection yapılacak
 
     private fun initButtons()
     {
-        mBinding.mainActivityButtonRegister.setOnClickListener { startActivityForResult(Intent(this, RegisterActivity::class.java), REQUEST_REGISTER) }
+        mBinding.mainActivityButtonRegister.setOnClickListener { startActivity(Intent(this, RegisterActivity::class.java)) }
+        mBinding.mainActivityButtonAllUsers.setOnClickListener { startActivity(Intent(this, AllUsersActivity::class.java)) }
         mBinding.mainActivityButtonExit.setOnClickListener { finish() }
     }
 
@@ -51,14 +41,5 @@ class MainActivity : AppCompatActivity() {
     {
         super.onCreate(savedInstanceState)
         initialize()
-    }
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
-    {
-        if (requestCode == REQUEST_REGISTER && resultCode == RESULT_OK)
-            loadUsers()
-
-        super.onActivityResult(requestCode, resultCode, data)
     }
 }
