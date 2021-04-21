@@ -109,7 +109,6 @@ object UserRepository : IUserRepository {
         db.delete(TABLE_NAME, null, null)
     }
 
-
     override fun findUserByUsername(username: String): Optional<User>
     {
         val projection = arrayOf(ID, NAME, USERNAME, PASSWORD, REGISTER_DATE)
