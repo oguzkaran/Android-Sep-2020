@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".AllUsersActivity">
+
+    <EditText
+        android:id="@+id/allUsersActivityEditTextUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/edittext_find_hint"/>
+
+    <RadioGroup
+        android:id="@+id/allUsersActivityRadioGroupSelection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/allUsersActivityRadioButtonFindUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/selection_radio_finduser_text"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/allUsersActivityRadioButtonUsernameContains"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/selection_radio_findusers_text" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/allUsersActivityButtonFind"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_find_text" />
+
+    <Button
+        android:id="@+id/allUsersActivityButtonAllUsers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_allusers_text" />
+
+    <Button
+        android:id="@+id/allUsersActivityButtonDeleteAllUsers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_deleteallusers_text" />
+
+    <ListView
+        android:id="@+id/allUsersActivityListViewUsers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

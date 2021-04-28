@@ -19,11 +19,6 @@ object UserRepository : IUserRepository {
 
     const val TABLE_NAME = "users"
 
-    const val CREATE_TABLE = """CREATE TABLE $TABLE_NAME 
-        ($ID integer primary key autoincrement,
-        $NAME text not null, $USERNAME text not null unique,
-        $PASSWORD text not null, $REGISTER_DATE integer not null);"""
-
     private fun getContentValues(u: User?) : ContentValues
     {
         val contentValues = ContentValues();

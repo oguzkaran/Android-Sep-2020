@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">SampleSqliteApp</string>
+    <string name="button_register_text">Register</string>
+    <string name="button_allusers_text">All Users</string>
+    <string name="button_exit_text">Exit</string>
+    <string name="button_deleteallusers_text">Delete All Users</string>
+    <string name="button_find_text">Find</string>
+    <string name="error_in_db_text">Internal Error Occurs. Try again later</string>
+    <string name="error_existinguser_text">You can not add existing user!!!</string>
+    <string name="no_users_text">No user in database</string>
+    <string name="selection_radio_finduser_text">Find User</string>
+    <string name="selection_radio_findusers_text">Find Users</string>
+    <string name="edittext_find_hint">Input username</string>
+</resources>
