@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     private fun getResult(text:String, host: String, port: Int) : String
     {
         Socket(host, port).use {
-            var bufferedWriter = BufferedWriter(OutputStreamWriter(it.getOutputStream()))
+            val bufferedWriter = BufferedWriter(OutputStreamWriter(it.getOutputStream()))
 
             bufferedWriter.write(text + "\r\n")
             bufferedWriter.flush()
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             if (port == REVERSE_PORT)
                 return BufferedReader(InputStreamReader(it.getInputStream())).readLine();
 
-            var dataInputStream = DataInputStream(it.getInputStream())
+            val dataInputStream = DataInputStream(it.getInputStream())
 
             return if (dataInputStream.readBoolean()) "Palindrom" else "Palindrom değil"
         }
@@ -36,8 +36,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun onOKButtonClicked()
     {
-        var host = mBinding.mainActivityEditTextHost.text.toString()
-        var port = if (mBinding.mainActivityRadioGroupServers.checkedRadioButtonId == R.id.mainActivityRadioButtonReverse) REVERSE_PORT else PALINDROME_PORT
+        val host = mBinding.mainActivityEditTextHost.text.toString()
+        val port = if (mBinding.mainActivityRadioGroupServers.checkedRadioButtonId == R.id.mainActivityRadioButtonReverse) REVERSE_PORT else PALINDROME_PORT
 
         Observable.just(mBinding.mainActivityEditTextText.text.toString())
             .subscribeOn(Schedulers.io())
