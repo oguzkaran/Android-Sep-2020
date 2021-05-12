@@ -10,16 +10,6 @@ public final class SchedulerUtil {
     {
     }
 
-    public static void schedulerFilterCallback(ClientInfo ci)
-    {
-        try {
-            ci.getSocket().close();
-        }
-        catch (IOException ignore) {
-
-        }
-    }
-
     public static boolean isRemovable(int key, Map<Integer, ClientInfo> clients, int threshold, String unitStr)
     {
         var now = LocalDateTime.now();
