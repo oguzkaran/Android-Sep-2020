@@ -48,17 +48,6 @@ public class ServerApplicationRunner implements ApplicationRunner  {
     @Value("${scheduler.palindrome.threshold}")
     private int m_palindromeSchedulerThreshold;
 
-    private static class ThreadUtil {
-        public static void sleep(long ms)
-        {
-            try {
-                Thread.sleep(ms);
-            }
-            catch (InterruptedException ignore) {
-            }
-        }
-    }
-
     private void saveClient(String text, boolean reverse, Socket socket)
     {
         var clientInfo = new Client();
@@ -98,8 +87,6 @@ public class ServerApplicationRunner implements ApplicationRunner  {
 
             str = new StringBuilder(str).reverse().toString();
 
-            //ThreadUtil.sleep(ThreadLocalRandom.current().nextLong(10000));
-
             bufferedWriter.write(str + "\r\n");
             bufferedWriter.flush();
             saveClient(text, true, socket);
@@ -137,7 +124,6 @@ public class ServerApplicationRunner implements ApplicationRunner  {
 
             var result = StringUtil.isPalindrome(str);
 
-            //ThreadUtil.sleep(ThreadLocalRandom.current().nextLong(10000));
             dataOutputStream.writeBoolean(result);
             dataOutputStream.flush();
             saveClient(text, false, socket);
@@ -150,19 +136,25 @@ public class ServerApplicationRunner implements ApplicationRunner  {
         }
     }
 
+    private void schedulerFilterCallback(ClientInfo ci)
+    {
+        try {
+            ci.getSocket().close();
+        }
+        catch (IOException ignore) {
+
+        }
+    }
+
     private void reverseSchedulerCallback()
     {
+        Console.writeLine("Size:%d", m_reverseClientsList.size());
+        
         synchronized (m_reverseClientsList) {
             var now = LocalDateTime.now();
             m_reverseClientsList.stream()
                     .filter(ci -> ChronoUnit.SECONDS.between(ci.getLastUpdate(), now) > m_reverseSchedulerThreshold)
-                    .forEach(ci -> {
-                        try {
-                            ci.getSocket().close();
-                        }
-                        catch (IOException ignore) {
-                        }
-                    });
+                    .forEach(this::schedulerFilterCallback);
 
             m_reverseClientsList.removeIf(ci -> ChronoUnit.SECONDS.between(ci.getLastUpdate(), now) > m_reverseSchedulerThreshold);
         }
@@ -193,13 +185,7 @@ public class ServerApplicationRunner implements ApplicationRunner  {
             var now = LocalDateTime.now();
             m_palindromeClientsList.stream()
                     .filter(ci -> ChronoUnit.SECONDS.between(ci.getLastUpdate(), now) > m_palindromeSchedulerThreshold)
-                    .forEach(ci -> {
-                        try {
-                            ci.getSocket().close();
-                        }
-                        catch (IOException ignore) {
-                        }
-                    });
+                    .forEach(this::schedulerFilterCallback);
 
             m_palindromeClientsList.removeIf(ci -> ChronoUnit.SECONDS.between(ci.getLastUpdate(), now) > m_palindromeSchedulerThreshold);
         }
