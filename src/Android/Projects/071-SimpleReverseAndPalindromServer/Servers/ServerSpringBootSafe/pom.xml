@@ -11,7 +11,7 @@
 
 	<groupId>org.csystem</groupId>
 	<artifactId>org-csystem-application-reversepalindrom-server</artifactId>
-	<version>3.0.0</version>
+	<version>4.0.0</version>
 	<name>org-csystem-application-reversepalindrom-server</name>
 	<description>Server Application</description>
 

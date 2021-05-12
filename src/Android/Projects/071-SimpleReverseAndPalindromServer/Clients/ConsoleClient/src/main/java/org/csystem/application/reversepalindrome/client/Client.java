@@ -22,10 +22,12 @@ public class Client {
 
     private void reverseProc()
     {
+        var str = Console.read("Bir yazı giriniz:");
+
         try (var socket = new Socket(m_serverHost, m_reverseServerPort)) {
             var bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             var bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            var str = Console.read("Bir yazı giriniz:");
+
             bufferedWriter.write(str + "\r\n");
             bufferedWriter.flush();
             str = bufferedReader.readLine();
@@ -40,10 +42,11 @@ public class Client {
 
     private void palindromeProc()
     {
+        var str = Console.read("Bir yazı giriniz:");
+
         try (var socket = new Socket(m_serverHost, m_palindromeServerPort)) {
             var dataInputStream = new DataInputStream(socket.getInputStream());
             var bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            var str = Console.read("Bir yazı giriniz:");
 
             bufferedWriter.write(str + "\r\n");
             bufferedWriter.flush();

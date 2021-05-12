@@ -1,4 +1,4 @@
-package org.csystem.application.reversepalindrome.server;
+package org.csystem.application.reversepalindrome.server.runner;
 
 import java.net.Socket;
 import java.time.LocalDateTime;
