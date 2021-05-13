@@ -18,7 +18,8 @@ public final class SchedulerUtil {
         var  status = ChronoUnit.valueOf(unitStr).between(ci.getLastUpdate(), now) > threshold;
 
         try {
-            ci.getSocket().close();
+            if (status)
+                ci.getSocket().close();
         }
         catch (IOException ignore) {
 
