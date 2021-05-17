@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 
-@Component
+//@Component
 public class PalindromeServerRunner implements ApplicationRunner {
     private final ServerSocket m_serverSocket;
     private final ExecutorService m_threadPool;
