@@ -1,0 +1,24 @@
+-123,false
+-153,false
+-223,false
+-1      false
+0       true
+1       true
+2       true
+3       true
+4       true
+5       true
+6       true
+7       true
+8       true
+9       true
+153     true
+370     true
+371     true
+407     true
+1634    true
+8208    true
+9474    true
+167     false
+9999    false
+5678    false

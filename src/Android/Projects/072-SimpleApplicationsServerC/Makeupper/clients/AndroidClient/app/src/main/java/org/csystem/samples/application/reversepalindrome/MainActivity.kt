@@ -14,7 +14,6 @@ import java.util.*
 
 const val UPPER_PORT = 5054
 
-
 class MainActivity : AppCompatActivity() {
     private lateinit var mBinding: ActivityMainBinding
 
@@ -36,14 +35,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun onOKButtonClicked()
     {
-        val host = mBinding.mainActivityEditTextHost.text.toString()
-        val port = UPPER_PORT
+        try {
+            val host = mBinding.mainActivityEditTextHost.text.toString()
+            val port = mBinding.mainActivityEditTextPort.text.toString().toInt()
 
-        Observable.just(mBinding.mainActivityEditTextText.text.toString())
-            .subscribeOn(Schedulers.io())
-            .map { getResult(it, host, port) }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe ({ mBinding.mainActivityTextViewResult.text = it }, { Toast.makeText(this, "${it.javaClass.name}:${it.message}", Toast.LENGTH_LONG).show()})
+            Observable.just(mBinding.mainActivityEditTextText.text.toString())
+                .subscribeOn(Schedulers.io())
+                .map { getResult(it, host, port) }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe ({ mBinding.mainActivityTextViewResult.text = it }, { Toast.makeText(this, "${it.javaClass.name}:${it.message}", Toast.LENGTH_LONG).show()})
+        }
+        catch (ex: NumberFormatException) {
+            Toast.makeText(this, "Invalid port", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun initButtons()

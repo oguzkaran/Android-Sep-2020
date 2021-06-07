@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">AndroidClient</string>
+    <string name="toggle_connection_textOff">Connect</string>
+    <string name="toggle_connection_textOn">Disconnect</string>
+
+    <string name="edittext_host_text">161.97.141.113</string>
+    <string name="edittext_host_hint">Input host</string>
+    <string name="edittext_port_text">5055</string>
+    <string name="edittext_port_hint">Input port</string>
+    <string name="edittext_first_number_hint">Input First Number</string>
+    <string name="edittext_second_number_hint">Input Second Number</string>
+    <string name="button_calculate_text">Calculate</string>
+    <string name="button_clear_text">Clear</string>
+    <string name="button_exit_text">Exit</string>
+
+</resources>

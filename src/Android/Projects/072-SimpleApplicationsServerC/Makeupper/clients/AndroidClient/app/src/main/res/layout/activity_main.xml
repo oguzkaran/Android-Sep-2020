@@ -18,6 +18,15 @@
         android:hint="Host" />
 
     <EditText
+        android:id="@+id/mainActivityEditTextPort"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:text="5054"
+        android:hint="Port" />
+
+    <EditText
         android:id="@+id/mainActivityEditTextText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

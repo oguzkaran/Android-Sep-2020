@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/mainActivityEditTextHost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/edittext_host_text"
+        android:hint="@string/edittext_host_hint" />
+
+    <EditText
+        android:id="@+id/mainActivityEditTextPort"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:text="@string/edittext_port_text"
+        android:hint="@string/edittext_port_text" />
+
+    <ToggleButton
+        android:id="@+id/mainActivityToggleButtonConnection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textOff="@string/toggle_connection_textOff"
+        android:textOn="@string/toggle_connection_textOn"/>
+
+    <LinearLayout
+        android:id="@+id/mainActivityLinearLayoutCalculator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/mainActivityEditTextFirstNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number"
+            android:hint="@string/edittext_first_number_hint" />
+
+        <Spinner
+            android:id="@+id/mainActivitySpinnerOperations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/mainActivityEditTextSecondNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number"
+            android:hint="@string/edittext_second_number_hint" />
+
+        <TextView
+            android:id="@+id/mainActivityTextViewResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/mainActivityButtonCalculate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/button_calculate_text" />
+
+        <Button
+            android:id="@+id/mainActivityButtonClear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/button_clear_text" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/mainActivityButtonExit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_exit_text" />
+
+
+</LinearLayout>
