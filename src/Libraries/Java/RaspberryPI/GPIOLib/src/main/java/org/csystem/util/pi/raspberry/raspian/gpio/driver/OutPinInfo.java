@@ -18,8 +18,11 @@ public class OutPinInfo implements Closeable {
     private void initPin()
     {
         try {
-            IOUtil.writeFile("/sys/class/gpio/export", String.valueOf(m_ioNo));
-            IOUtil.writeFile(String.format("/sys/class/gpio/gpio%d/direction", m_ioNo), "out");
+            if (!GPIOUtil.exists(m_ioNo))
+                IOUtil.writeFile("/sys/class/gpio/export", String.valueOf(m_ioNo));
+
+            if (!GPIOUtil.isAvailableForOut(m_ioNo))
+                IOUtil.writeFile(String.format("/sys/class/gpio/gpio%d/direction", m_ioNo), "out");
         }
         catch (IOException ex) {
             this.close();
@@ -27,7 +30,7 @@ public class OutPinInfo implements Closeable {
         }
     }
 
-    private void makeLogic(boolean level)
+    private void doLogic(boolean level)
     {
         try {
             m_fileOutputStreamValue.write(String.format("%d", level ? 1 : 0).getBytes(StandardCharsets.UTF_8));
@@ -58,19 +61,19 @@ public class OutPinInfo implements Closeable {
         }
     }
 
-    public void activate(boolean active)
+    public void logic(boolean active)
     {
-        makeLogic(active);
+        doLogic(active);
     }
 
-    public void activate()
+    public void high()
     {
-        activate(true);
+        logic(true);
     }
 
-    public void deactivate()
+    public void low()
     {
-        activate(false);
+        logic(false);
     }
 
     public boolean ioStatus()
