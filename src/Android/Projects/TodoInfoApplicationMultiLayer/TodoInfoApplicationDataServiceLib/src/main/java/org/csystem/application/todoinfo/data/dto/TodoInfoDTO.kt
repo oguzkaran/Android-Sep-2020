@@ -12,3 +12,12 @@ data class TodoInfoDTO(var id: Long = 0,
                        var completed: Boolean = false) : Serializable {
     override fun toString() = title
 }
+
+
+
+
+
+
+
+
+
