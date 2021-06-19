@@ -11,9 +11,8 @@
 
 	<groupId>org.csystem</groupId>
 	<artifactId>org-csystem-util-data</artifactId>
-	<version>4.1.0</version>
+	<version>11.0.0</version>
 	<name>org-csystem-util-data</name>
-	<description>Generic Library Provider</description>
 
 	<properties>
 		<java.version>8</java.version>

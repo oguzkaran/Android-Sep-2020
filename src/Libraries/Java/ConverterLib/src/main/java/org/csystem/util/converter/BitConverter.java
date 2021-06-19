@@ -1,9 +1,9 @@
 /*----------------------------------------------------------------------
 	FILE        : BitConverter.java
 	AUTHOR      : Oğuz Karan
-	LAST UPDATE : 05.10.2020
+	LAST UPDATE : 18.06.2020
 	
-	BitConverter class for byte operations with built-in types
+	Utility class for byte operations for built-in types
 	
 	Copyleft (c) 1993 by C and System Programmers Association (CSD)
 	All Rights Free
@@ -89,7 +89,17 @@ public final class BitConverter {
 	{
 		return new String(data, charset);
 	}
-	
+
+	public static byte toByte(byte [] data)
+	{
+		return toByte(data, 0);
+	}
+
+	public static byte toByte(byte [] data, int startIndex)
+	{
+		return data[startIndex];
+	}
+
 	public static short toShort(byte [] data)
 	{
 		return toShort(data, 0);		

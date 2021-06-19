@@ -1,9 +1,9 @@
 /*----------------------------------------------------------------------
 FILE        : TcpUtil.java
 AUTHOR      : Oğuz Karan
-LAST UPDATE : 31.05.2021
+LAST UPDATE : 18.06.2021
 
-TcpUtil class for TCP socket operations
+Utility class for TCP socket operations
 
 Copyleft (c) 1993 by C and System Programmers Association (CSD)
 All Rights Free
@@ -282,15 +282,7 @@ public final class TcpUtil {
 
 	public static void receiveFile(Socket socket, File file, int blockSize)
 	{
-		try {
-			receiveFile(socket, file.getAbsolutePath(), blockSize);
-		}
-		catch (NetworkException ex) {
-			throw new NetworkException("TcpUtil.receiveFile", ex.getCause());
-		}
-		catch (Throwable ex) {
-			throw new NetworkException("TcpUtil.receiveFile", ex);
-		}
+		receiveFile(socket, file.getAbsolutePath(), blockSize);
 	}
 
 	public static void receiveFile(Socket socket, String path, int blockSize)
@@ -460,15 +452,7 @@ public final class TcpUtil {
 
 	public static void sendFile(Socket socket, File file, int blockSize)
 	{
-		try {
-			sendFile(socket, file.getAbsolutePath(), blockSize);
-		}
-		catch (NetworkException ex) {
-			throw new NetworkException("TcpUtil.sendFile", ex.getCause());
-		}
-		catch (Throwable ex) {
-			throw new NetworkException("TcpUtil.sendFile", ex);
-		}
+		sendFile(socket, file.getAbsolutePath(), blockSize);
 	}
 
 	public static void sendFile(Socket socket, String path, int blockSize)

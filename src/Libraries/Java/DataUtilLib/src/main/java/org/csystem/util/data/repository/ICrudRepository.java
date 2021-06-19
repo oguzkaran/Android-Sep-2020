@@ -8,7 +8,7 @@ public interface ICrudRepository<T, ID> {
     void deleteAll();
     void deleteAll(Iterable<? extends T> entities);
     void deleteById(ID id);
-    boolean exitsById(ID id);
+    boolean existsById(ID id);
     Iterable<T> findAll();
     Iterable<T> findAllById(Iterable<ID> ids);
     Optional<T> findById(ID id);

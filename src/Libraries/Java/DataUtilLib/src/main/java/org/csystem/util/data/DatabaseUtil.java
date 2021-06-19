@@ -10,7 +10,7 @@ public final class DatabaseUtil {
     private DatabaseUtil()
     {}
 
-    public static <R> R doWorkForRepository(String msg, ISupplierCallback<R> supplier)
+    public static <R> R doWorkForRepository(ISupplierCallback<R> supplier, String msg)
     {
         try {
             return supplier.get();
@@ -20,7 +20,7 @@ public final class DatabaseUtil {
         }
     }
 
-    public static <R> R doWorkForRepository(String msg, ISupplierCallback<R> supplier, Consumer<Throwable> consumer)
+    public static <R> R doWorkForRepository(ISupplierCallback<R> supplier, Consumer<Throwable> consumer, String msg)
     {
         try {
             return supplier.get();
@@ -31,7 +31,7 @@ public final class DatabaseUtil {
         }
     }
 
-    public static void doWorkForRepositoryRunnable(String msg, IActionCallback action)
+    public static void doWorkForRepositoryRunnable(IActionCallback action, String msg)
     {
         try {
             action.run();
@@ -41,7 +41,7 @@ public final class DatabaseUtil {
         }
     }
 
-    public static void doWorkForRepositoryRunnable(String msg, IActionCallback action, Consumer<Throwable> consumer)
+    public static void doWorkForRepositoryRunnable(IActionCallback action, Consumer<Throwable> consumer, String msg)
     {
         try {
             action.run();
@@ -52,7 +52,7 @@ public final class DatabaseUtil {
         }
     }
 
-    public static <R> R doWorkForService(String msg, ISupplierCallback<R> supplier)
+    public static <R> R doWorkForService(ISupplierCallback<R> supplier, String msg)
     {
         try {
             return supplier.get();
@@ -62,7 +62,7 @@ public final class DatabaseUtil {
         }
     }
 
-    public static <R> R doWorkForService(String msg, ISupplierCallback<R> supplier, Consumer<Throwable> consumer)
+    public static <R> R doWorkForService(ISupplierCallback<R> supplier, Consumer<Throwable> consumer, String msg)
     {
         try {
             return supplier.get();
@@ -73,7 +73,7 @@ public final class DatabaseUtil {
         }
     }
 
-    public static void doWorkForServiceRunnable(String msg, IActionCallback runnable)
+    public static void doWorkForServiceRunnable(IActionCallback runnable, String msg)
     {
         try {
             runnable.run();
@@ -83,7 +83,7 @@ public final class DatabaseUtil {
         }
     }
 
-    public static void doWorkForServiceRunnable(String msg, IActionCallback runnable, Consumer<Throwable> consumer)
+    public static void doWorkForServiceRunnable(IActionCallback runnable, Consumer<Throwable> consumer, String msg)
     {
         try {
             runnable.run();

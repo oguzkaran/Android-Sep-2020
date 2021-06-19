@@ -3,7 +3,7 @@ FILE        : NetworkException.java
 AUTHOR      : Oguz Karan
 LAST UPDATE : 30.09.2020
 
-NetworkException unchecked exception class for network applications
+Unnchecked exception class for network applications
 
 Copyleft (c) 1993 by C and System Programmers Association (CSD)
 All Rights Free
