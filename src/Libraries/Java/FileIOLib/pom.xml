@@ -14,7 +14,7 @@
 
 
     <groupId>org.csystem.java</groupId>
-    <artifactId>org-csystem-util-io</artifactId>
+    <artifactId>org-csystem-util-io.file</artifactId>
     <version>4.0.0</version>
 
 

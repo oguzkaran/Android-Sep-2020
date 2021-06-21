@@ -1,14 +1,14 @@
 /*----------------------------------------------------------------------
 	FILE        : FileUtil.java
 	AUTHOR      : Oğuz Karan
-	LAST UPDATE : 05.11.2020
+	LAST UPDATE : 20.06.2021
 
 	DirectoryInfo class
 
 	Copyleft (c) 1993 by C and System Programmers Association (CSD)
 	All Rights Free
 -----------------------------------------------------------------------*/
-package org.csystem.util.io;
+package org.csystem.util.io.file;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class DirectoryInfo extends File {
-    private long m_length = -1;
+    private long m_length;
 
     private boolean fileFilterCallback(File dir, String name)
     {
@@ -58,11 +58,8 @@ public class DirectoryInfo extends File {
             throw new IOException("is not a directory");
     }
 
-    public long getLength()
+    public long length()
     {
-        if (m_length != -1)
-            return m_length;
-
         m_length = 0;
         this.calculateLength();
 
@@ -81,13 +78,10 @@ public class DirectoryInfo extends File {
                 .collect(Collectors.toList());
     }
 
-    public void refresh()
-    {
-        this.calculateLength();
-    }
-
     public void walk(Consumer<File> consumer)
     {
         FileUtil.walkDir(this, consumer);
     }
+
+    //...
 }

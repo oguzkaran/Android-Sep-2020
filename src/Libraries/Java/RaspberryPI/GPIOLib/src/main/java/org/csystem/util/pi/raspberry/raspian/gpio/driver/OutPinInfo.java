@@ -1,3 +1,13 @@
+/*----------------------------------------------------------------------
+	FILE        : OutPinInfo.java
+	AUTHOR      : Oğuz Karan
+	LAST UPDATE : 18.06.2021
+
+	OutPinInfo class for GPIO out pins
+
+	Copyleft (c) 1993 by C and System Programmers Association (CSD)
+	All Rights Free
+-----------------------------------------------------------------------*/
 package org.csystem.util.pi.raspberry.raspian.gpio.driver;
 
 import org.csystem.util.pi.gpio.exception.GPIOException;
@@ -87,6 +97,20 @@ public class OutPinInfo implements Closeable {
         }
     }
 
+    public void output(byte [] data)
+    {
+        output(data, data.length);
+    }
+    public void output(byte [] data, int size)
+    {
+        try {
+            m_fileOutputStreamValue.write(data, 0, size);
+        }
+        catch (IOException ex) {
+            this.close();
+            throw new GPIOException("output", ex);
+        }
+    }
     @Override
     public void close()
     {

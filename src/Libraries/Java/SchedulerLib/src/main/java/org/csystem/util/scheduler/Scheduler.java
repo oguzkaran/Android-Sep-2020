@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------------------------------------------------
-    Scheduler sınıfı
+    Scheduler class
 ----------------------------------------------------------------------------------------------------------------------*/
 package org.csystem.util.scheduler;
 
@@ -7,20 +7,22 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 public final class Scheduler {
     private final Timer m_timer;
     private final long m_delay;
     private final long m_period;
-    private Runnable m_cancelTask;
+    private IRunnable m_cancelTask;
 
     public Scheduler(long period)
     {
-        this(0, period, TimeUnit.MILLISECONDS);
+        this(0, period, MILLISECONDS);
     }
 
     public Scheduler(long delay, long period)
     {
-        this(delay, period, TimeUnit.MILLISECONDS);
+        this(delay, period, MILLISECONDS);
     }
 
     public Scheduler(long period, TimeUnit timeUnit)
@@ -31,31 +33,43 @@ public final class Scheduler {
     public Scheduler(long delay, long period, TimeUnit timeUnit)
     {
         m_timer = new Timer();
-        m_delay = timeUnit != TimeUnit.MILLISECONDS ? TimeUnit.MILLISECONDS.convert(delay, timeUnit) : delay;
-        m_period = timeUnit != TimeUnit.MILLISECONDS ? TimeUnit.MILLISECONDS.convert(period, timeUnit) : period;
+        m_delay = timeUnit != MILLISECONDS ? MILLISECONDS.convert(delay, timeUnit) : delay;
+        m_period = timeUnit != MILLISECONDS ? MILLISECONDS.convert(period, timeUnit) : period;
     }
 
-    public void schedule(Runnable runnable)
+    public void schedule(IRunnable task)
     {
-        schedule(runnable, null);
+        schedule(task, null);
     }
 
-    public void schedule(Runnable runnable, Runnable cancelTask)
+    public void schedule(IRunnable task, IRunnable cancelTask)
     {
         m_cancelTask = cancelTask;
-        m_timer.scheduleAtFixedRate(new TimerTask() {
+
+        m_timer.schedule(new TimerTask() {
             public void run()
             {
-                runnable.run();
+                try {
+                    task.run();
+                }
+                catch (Throwable ignore) {
+
+                }
             }
         }, m_delay, m_period);
     }
 
     public void cancel()
     {
-        if (m_cancelTask != null)
-            m_cancelTask.run();
+        try {
+            if (m_cancelTask != null)
+                m_cancelTask.run();
 
-        m_timer.cancel();
+            m_timer.cancel();
+        }
+        catch (Throwable ignore) {
+
+        }
     }
 }
+

@@ -1,3 +1,13 @@
+/*----------------------------------------------------------------------
+	FILE        : GPIOUtil.java
+	AUTHOR      : Oğuz Karan
+	LAST UPDATE : 18.06.2021
+
+	Utility class for GPIO
+
+	Copyleft (c) 1993 by C and System Programmers Association (CSD)
+	All Rights Free
+-----------------------------------------------------------------------*/
 package org.csystem.util.pi.raspberry.raspian.gpio.driver;
 
 import org.csystem.util.pi.gpio.exception.GPIOException;

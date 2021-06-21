@@ -1,26 +1,33 @@
 /*----------------------------------------------------------------------------------------------------------------------
-    CountDownSchedulerEx sınıfı
+    CountDownSchedulerEx class
 ----------------------------------------------------------------------------------------------------------------------*/
 package org.csystem.util.scheduler;
 
 import java.util.concurrent.TimeUnit;
 
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 public abstract class CountDownSchedulerEx extends CountDownScheduler {
-    protected CountDownSchedulerEx(long millisInFuture, long interval)
+    public CountDownSchedulerEx(long millisInFuture, long interval)
     {
-        this(millisInFuture, interval, TimeUnit.MILLISECONDS);
+        this(millisInFuture, interval, MILLISECONDS);
     }
 
-    protected CountDownSchedulerEx(long millisFuture, long interval, TimeUnit timeUnit)
+    public CountDownSchedulerEx(long future, long interval, TimeUnit timeUnit)
     {
-        super(millisFuture, interval, timeUnit);
+        super(future, interval, timeUnit);
     }
 
-    public void startScheduler()
+    public abstract void onStart() throws Exception;
+
+    public final void startScheduler()
     {
-        onStart();
+        try {
+            onStart();
+        }
+        catch (Throwable ignore) {
+            //...
+        }
         start();
     }
-
-    public abstract void onStart();
 }

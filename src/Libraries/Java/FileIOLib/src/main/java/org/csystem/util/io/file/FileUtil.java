@@ -1,14 +1,14 @@
 /*----------------------------------------------------------------------
 	FILE        : FileUtil.java
 	AUTHOR      : Oğuz Karan
-	LAST UPDATE : 03.11.2020
+	LAST UPDATE : 20.06.2021
 
-	FileUtil class
+	Utility class for files
 
 	Copyleft (c) 1993 by C and System Programmers Association (CSD)
 	All Rights Free
 -----------------------------------------------------------------------*/
-package org.csystem.util.io;
+package org.csystem.util.io.file;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,11 +28,12 @@ public final class FileUtil {
 
     public static void walkDir(File path, Consumer<File> consumer)
     {
-        for (File file : Objects.requireNonNull(path.listFiles()))
+        for (File file : Objects.requireNonNull(path.listFiles())) {
             if (file.isDirectory())
                 walkDir(file, consumer);
-            else
-                consumer.accept(file);
+
+            consumer.accept(file);
+        }
     }
 
     public static void walkDir(String path, Consumer<File> consumer)
@@ -56,4 +57,6 @@ public final class FileUtil {
             return ch1 == -1;
         }
     }
+
+    //...
 }

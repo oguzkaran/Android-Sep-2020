@@ -1,12 +1,20 @@
+/*----------------------------------------------------------------------
+	FILE        : InPinInfo.java
+	AUTHOR      : Oğuz Karan
+	LAST UPDATE : 18.06.2021
+
+	InPinInfo class for GPIO in pins
+
+	Copyleft (c) 1993 by C and System Programmers Association (CSD)
+	All Rights Free
+-----------------------------------------------------------------------*/
 package org.csystem.util.pi.raspberry.raspian.gpio.driver;
 
 import org.csystem.util.pi.gpio.exception.GPIOException;
 
 import java.io.Closeable;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 public class InPinInfo implements Closeable {
     private static final int MIN_IO_NO = 0;
@@ -44,6 +52,11 @@ public class InPinInfo implements Closeable {
             this.close();
             throw new GPIOException("ctor", ex);
         }
+    }
+
+    public int input(byte [] data)
+    {
+        return input(data, data.length);
     }
 
     public int input(byte [] data, int size)
