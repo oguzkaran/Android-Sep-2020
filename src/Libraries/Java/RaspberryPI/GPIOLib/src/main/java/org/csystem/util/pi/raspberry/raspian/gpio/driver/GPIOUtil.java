@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
 	FILE        : GPIOUtil.java
 	AUTHOR      : Oğuz Karan
-	LAST UPDATE : 18.06.2021
+	LAST UPDATE : 21.06.2021
 
 	Utility class for GPIO
 
@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -35,7 +36,7 @@ public final class GPIOUtil {
         boolean result;
 
         try {
-            result = Files.readString(Path.of("/sys/class/gpio/gpio" + ioNo)).equals(direction);
+            result = Files.readString(Path.of("/sys/class/gpio/gpio" + ioNo + "/direction")).trim().equals(direction);
         }
         catch (IOException ignore) {
             result = false;
@@ -67,7 +68,30 @@ public final class GPIOUtil {
         var files = new File("/sys/class/gpio")
                 .listFiles(f -> f.getName().startsWith("gpio") && !f.getName().startsWith("gpiochip"));
 
+        if (files == null)
+            return null;
+
         return Stream.of(Objects.requireNonNull(files)).mapToInt(GPIOUtil::availableIoNosCallback).toArray();
+    }
+
+    public static int [] getAvailableOutIoNos()
+    {
+        var ioNos = getAvailableIoNos();
+
+        if (ioNos == null)
+            return null;
+
+        return Arrays.stream(getAvailableIoNos()).filter(GPIOUtil::isAvailableForOut).toArray();
+    }
+
+    public static int [] getAvailableInIoNos()
+    {
+        var ioNos = getAvailableIoNos();
+
+        if (ioNos == null)
+            return null;
+
+        return Arrays.stream(getAvailableIoNos()).filter(GPIOUtil::isAvailableForIn).toArray();
     }
 
     public static void high(int ioNo)
