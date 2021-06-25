@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
 	FILE        : CommandPrompt.java
 	AUTHOR      : CSD Project Group
-	LAST UPDATE : 20.06.2021
+	LAST UPDATE : 24.06.2021
 
 	CommandPrompt class which manages commands
 
@@ -43,7 +43,7 @@ public class CommandPrompt {
 
     public static boolean areAllString(Parameter [] parameters)
     {
-        for (var parameter : parameters)
+        for (Parameter parameter : parameters)
             if (parameter.getParameterizedType() != String.class)
                 return false;
 
@@ -52,11 +52,11 @@ public class CommandPrompt {
 
     private void registerCommands(Command [] commands, Method method)
     {
-        for (var command : commands) {
-            var value = command.value();
-            var commandText = value.isBlank() ? method.getName() : value;
+        for (Command command : commands) {
+            String value = command.value();
+            String commandText = value.isBlank() ? method.getName() : value;
 
-            var parameters = method.getParameters();
+            Parameter [] parameters = method.getParameters();
 
             if (!areAllString(parameters))
                 throw new IllegalArgumentException(m_paramStringTypeErrorMessage);
@@ -70,7 +70,7 @@ public class CommandPrompt {
         boolean flag = false;
         boolean argsFlag = false;
 
-        for (var methodCallInfo : m_methodCallInfos) {
+        for (MethodCallInfo methodCallInfo : m_methodCallInfos) {
             if (methodCallInfo.commandText.equals(args[0])) {
                 flag = true;
                 argsFlag = true;
@@ -161,11 +161,11 @@ public class CommandPrompt {
     public CommandPrompt register(Object regObject)
     {
         m_regObject = regObject;
-        var regObjectClass = m_regObject.getClass();
-        var methods = regObjectClass.getDeclaredMethods();
+        Class<?> regObjectClass = m_regObject.getClass();
+        Method [] methods = regObjectClass.getDeclaredMethods();
 
-        for (var method : methods) {
-            var commands = method.getAnnotationsByType(Command.class);
+        for (Method method : methods) {
+            Command[] commands = method.getAnnotationsByType(Command.class);
 
             if (commands.length == 0) {
                 if (m_errorMethod == null && method.getDeclaredAnnotation(ErrorCommand.class) != null
@@ -184,7 +184,7 @@ public class CommandPrompt {
         try {
             for (;;) {
                 System.out.print(m_prompt + m_promptSuffix);
-                var cmd = m_kb.nextLine().strip();
+                String cmd = m_kb.nextLine().strip();
 
                 if (cmd.isEmpty())
                     continue;
