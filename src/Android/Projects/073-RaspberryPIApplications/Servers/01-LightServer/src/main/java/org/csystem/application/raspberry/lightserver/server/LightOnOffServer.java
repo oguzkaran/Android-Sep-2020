@@ -1,39 +1,119 @@
 package org.csystem.application.raspberry.lightserver.server;
 
-import org.csystem.util.Console;
+import org.csystem.util.net.TcpUtil;
+import org.csystem.util.pi.gpio.exception.GPIOException;
 import org.csystem.util.pi.raspberry.raspian.gpio.driver.GPIOUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
+import java.util.function.Consumer;
 
 @Component
 public class LightOnOffServer {
+    private final List<CommandInfo> m_commandInfos = new ArrayList<>();
     private final ExecutorService m_threadPool;
     private final ServerSocket m_serverSocket;
+
+    {
+        m_commandInfos.add(new CommandInfo((byte)0, this::handleLightOnOff));
+        m_commandInfos.add(new CommandInfo((byte)1, this::handleLightOn));
+        m_commandInfos.add(new CommandInfo((byte)-1, this::handleLightOff));
+    }
+
+    private static class CommandInfo {
+        byte code;
+        Consumer<Socket> consumer;
+
+        public CommandInfo(byte code)
+        {
+            this(code, null);
+        }
+
+        public CommandInfo(byte code, Consumer<Socket> consumer)
+        {
+            this.code = code;
+            this.consumer = consumer;
+        }
+
+        @Override
+        public boolean equals(Object other)
+        {
+            return ((CommandInfo)other).code == code;
+        }
+    }
+    private void handleLightOn(Socket socket)
+    {
+        try {
+            var ioNo = TcpUtil.receiveInt(socket);
+
+            GPIOUtil.high(ioNo);
+            TcpUtil.sendByte(socket, (byte)1);
+        }
+        catch (GPIOException ignore) {
+            TcpUtil.sendByte(socket, (byte)0);
+        }
+    }
+    private void handleLightOff(Socket socket)
+    {
+        try {
+            var ioNo = TcpUtil.receiveInt(socket);
+
+            GPIOUtil.low(ioNo);
+            TcpUtil.sendByte(socket, (byte)1);
+        }
+        catch (GPIOException ignore) {
+            TcpUtil.sendByte(socket, (byte)0);
+        }
+    }
+    private void handleLightOnOff(Socket socket)
+    {
+        var ioNo = TcpUtil.receiveInt(socket);
+        var count = TcpUtil.receiveInt(socket);
+        var milliSecond = TcpUtil.receiveLong(socket);
+
+        lightOnOff(socket, ioNo, count, milliSecond);
+    }
+
+    private void lightOnOff(Socket socket, int ioNo, int count, long millisecond)
+    {
+        try {
+            for (int i = 0; i < count; ++i) {
+                GPIOUtil.high(ioNo);
+                Thread.sleep(millisecond);
+                GPIOUtil.low(ioNo);
+                Thread.sleep(millisecond);
+            }
+
+            TcpUtil.sendByte(socket, (byte) 1);
+        }
+        catch (GPIOException ex) {
+            TcpUtil.sendByte(socket, (byte)0);
+        }
+        catch (InterruptedException ex) {
+            ex.printStackTrace();
+        }
+    }
 
     private void handleClient(Socket socket)
     {
         try (socket) {
-            Console.writeLine("Client connected");
-            var dis = new DataInputStream(socket.getInputStream());
-            var ioNo = dis.readInt();
-            var count = dis.readInt();
-            var milliSecond = dis.readLong();
+            var code = TcpUtil.receiveByte(socket);
 
-            for (int i = 0; i < count; ++i) {
-                GPIOUtil.high(ioNo);
-                Thread.sleep(milliSecond);
-                GPIOUtil.low(ioNo);
-                Thread.sleep(milliSecond);
+            int index = m_commandInfos.indexOf(new CommandInfo(code));
+
+            if (index != -1) {
+                TcpUtil.sendByte(socket, (byte)1);
+                m_commandInfos.get(index).consumer.accept(socket);
             }
+            else
+                TcpUtil.sendByte(socket, (byte)0);
+
         }
         catch (Throwable ex) {
             ex.printStackTrace();

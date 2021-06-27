@@ -7,11 +7,11 @@ import org.springframework.context.annotation.Scope;
 
 @Configuration
 public class CommandConfig {
-    private final Commands m_commands;
+    private final CommandsInfo m_commandsInfo;
 
-    public CommandConfig(Commands commands)
+    public CommandConfig(CommandsInfo commandsInfo)
     {
-        m_commands = commands;
+        m_commandsInfo = commandsInfo;
     }
 
     @Bean
@@ -21,6 +21,6 @@ public class CommandConfig {
         return new CommandPrompt()
                 .setPrompt("csd")
                 .setPromptSuffix("$")
-                .register(m_commands);
+                .register(m_commandsInfo);
     }
 }

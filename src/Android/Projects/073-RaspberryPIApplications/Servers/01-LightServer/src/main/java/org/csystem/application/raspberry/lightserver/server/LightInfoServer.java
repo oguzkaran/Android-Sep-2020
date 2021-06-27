@@ -1,10 +1,10 @@
 package org.csystem.application.raspberry.lightserver.server;
 
+import org.csystem.util.net.TcpUtil;
 import org.csystem.util.pi.raspberry.raspian.gpio.driver.GPIOUtil;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -18,15 +18,13 @@ public class LightInfoServer {
     private void handleClient(Socket socket)
     {
         try (socket) {
-            var dos = new DataOutputStream(socket.getOutputStream());
             var ioNos = GPIOUtil.getAvailableOutIoNos();
 
-            dos.writeInt(ioNos.length);
+            TcpUtil.sendInt(socket, ioNos == null ? 0 : ioNos.length);
 
-            for (var ioNo : ioNos)
-                dos.writeInt(ioNo);
-
-            dos.flush();
+            if (ioNos != null && ioNos.length != 0)
+                for (var ioNo : ioNos)
+                    TcpUtil.sendInt(socket, ioNo);
         }
         catch (Throwable ex) {
             ex.printStackTrace();
@@ -38,6 +36,7 @@ public class LightInfoServer {
         try {
             for (;;) {
                 var clientSocket = m_serverSocket.accept();
+
                 m_threadPool.submit(() -> handleClient(clientSocket));
             }
         }
