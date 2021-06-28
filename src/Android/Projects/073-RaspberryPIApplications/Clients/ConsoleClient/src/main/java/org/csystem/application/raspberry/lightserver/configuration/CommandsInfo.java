@@ -38,7 +38,7 @@ public class CommandsInfo {
             Console.writeLine(TcpUtil.receiveByte(socket) == 1 ? "Success" : "Fail");
         }
         catch (NetworkException ignore) {
-            //...
+
         }
         catch (NumberFormatException ignore) {
             Console.Error.writeLine("Invalid values");

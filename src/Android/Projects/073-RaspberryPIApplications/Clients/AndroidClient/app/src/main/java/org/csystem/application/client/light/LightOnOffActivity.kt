@@ -33,7 +33,7 @@ class LightOnOffActivity : AppCompatActivity() {
     {
         var result: Byte = 0
 
-        Socket(info.host, info.port).use {
+        Socket(info.host, info.port).also {
             TcpUtil.sendByte(it, 0)
             if (TcpUtil.receiveByte(it).toInt() == 1) {
                 TcpUtil.sendInt(it, info.ioNo)
@@ -56,7 +56,7 @@ class LightOnOffActivity : AppCompatActivity() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {mBinding.lightOnOffActivityTextViewResult.text = if (it.toInt() == 1) "Success" else "Fail"},
-                    {Toast.makeText(this, it.javaClass.name, Toast.LENGTH_LONG).show()})
+                    {Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()})
         }
         catch (ignore: NumberFormatException) {
             Toast.makeText(this, "Invalid values", Toast.LENGTH_LONG).show()

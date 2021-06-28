@@ -90,7 +90,9 @@ public class LightOnOffServer {
                 Thread.sleep(millisecond);
             }
 
-            TcpUtil.sendByte(socket, (byte) 1);
+            Thread.sleep(1000);
+
+            TcpUtil.sendByte(socket, (byte)1);
         }
         catch (GPIOException ex) {
             TcpUtil.sendByte(socket, (byte)0);

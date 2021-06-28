@@ -126,7 +126,7 @@ public final class TcpUtil {
 		try {
 			byte[] data = new byte[2];
 
-			TcpUtil.receive(socket, data);
+			receive(socket, data);
 
 			return BitConverter.toShort(data);
 		}
