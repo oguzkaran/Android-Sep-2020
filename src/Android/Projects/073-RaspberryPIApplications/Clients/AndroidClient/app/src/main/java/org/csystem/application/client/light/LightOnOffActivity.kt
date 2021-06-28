@@ -1,6 +1,7 @@
 package org.csystem.application.client.light
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -29,18 +30,19 @@ class LightOnOffActivity : AppCompatActivity() {
         return Info(host, port, ioNo, count, millisecond)
     }
 
-    private fun lightOnOffServerProc(info: Info) : Byte
+    private fun lightOnOffServerProc(info: Info) : Int
     {
-        var result: Byte = 0
+        var result = 0
 
         Socket(info.host, info.port).also {
-            TcpUtil.sendByte(it, 0)
-            if (TcpUtil.receiveByte(it).toInt() == 1) {
+            TcpUtil.sendInt(it, 0)
+            if (TcpUtil.receiveInt(it).toInt() == 1) {
                 TcpUtil.sendInt(it, info.ioNo)
                 TcpUtil.sendInt(it, info.count)
                 TcpUtil.sendLong(it, info.millisecond)
 
-                result = TcpUtil.receiveByte(it)
+                result = TcpUtil.receiveInt(it)
+                Log.d("test", result.toString())
             }
         }
 
@@ -55,7 +57,7 @@ class LightOnOffActivity : AppCompatActivity() {
                 .map{lightOnOffServerProc(it)}
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                    {mBinding.lightOnOffActivityTextViewResult.text = if (it.toInt() == 1) "Success" else "Fail"},
+                    {mBinding.lightOnOffActivityTextViewResult.text = if (it == 1) "Success" else "Fail"},
                     {Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()})
         }
         catch (ignore: NumberFormatException) {

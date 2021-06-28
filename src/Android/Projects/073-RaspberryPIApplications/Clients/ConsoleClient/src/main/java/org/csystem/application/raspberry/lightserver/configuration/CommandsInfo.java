@@ -27,15 +27,15 @@ public class CommandsInfo {
     private void lightOnOff(String ioNo, String count, String millisecond)
     {
         try (var socket = new Socket(m_lightOnOffHost, m_lightOnOffPort)) {
-            TcpUtil.sendByte(socket, (byte)0);
-            if (TcpUtil.receiveByte(socket) == 0) {
+            TcpUtil.sendInt(socket, 0);
+            if (TcpUtil.receiveInt(socket) == 0) {
                 Console.writeLine("Fail");
                 return;
             }
             TcpUtil.sendInt(socket, Integer.parseInt(ioNo));
             TcpUtil.sendInt(socket, Integer.parseInt(count));
             TcpUtil.sendLong(socket, Long.parseLong(millisecond));
-            Console.writeLine(TcpUtil.receiveByte(socket) == 1 ? "Success" : "Fail");
+            Console.writeLine(TcpUtil.receiveInt(socket) == 1 ? "Success" : "Fail");
         }
         catch (NetworkException ignore) {
 
@@ -63,16 +63,16 @@ public class CommandsInfo {
         }
     }
 
-    private void lightOnOff(String ioNo, byte code)
+    private void lightOnOff(String ioNo, int code)
     {
         try (var socket = new Socket(m_lightOnOffHost, m_lightOnOffPort)) {
-            TcpUtil.sendByte(socket, code);
-            if (TcpUtil.receiveByte(socket) == 0) {
+            TcpUtil.sendInt(socket, code);
+            if (TcpUtil.receiveInt(socket) == 0) {
                 Console.writeLine("Fail");
                 return;
             }
             TcpUtil.sendInt(socket, Integer.parseInt(ioNo));
-            Console.writeLine(TcpUtil.receiveByte(socket) == 1 ? "Success" : "Fail");
+            Console.writeLine(TcpUtil.receiveInt(socket) == 1 ? "Success" : "Fail");
         }
         catch (NetworkException ignore) {
             //...
@@ -88,13 +88,13 @@ public class CommandsInfo {
     @Command("on")
     private void lightOn(String ioNo)
     {
-        lightOnOff(ioNo, (byte)1);
+        lightOnOff(ioNo, 1);
     }
 
     @Command("off")
     private void lightOff(String ioNo)
     {
-        lightOnOff(ioNo, (byte)-1);
+        lightOnOff(ioNo, -1);
     }
 
     @Command

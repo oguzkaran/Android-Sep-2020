@@ -21,21 +21,21 @@ public class LightOnOffServer {
     private final ServerSocket m_serverSocket;
 
     {
-        m_commandInfos.add(new CommandInfo((byte)0, this::handleLightOnOff));
-        m_commandInfos.add(new CommandInfo((byte)1, this::handleLightOn));
-        m_commandInfos.add(new CommandInfo((byte)-1, this::handleLightOff));
+        m_commandInfos.add(new CommandInfo(0, this::handleLightOnOff));
+        m_commandInfos.add(new CommandInfo(1, this::handleLightOn));
+        m_commandInfos.add(new CommandInfo(-1, this::handleLightOff));
     }
 
     private static class CommandInfo {
-        byte code;
+        int code;
         Consumer<Socket> consumer;
 
-        public CommandInfo(byte code)
+        public CommandInfo(int code)
         {
             this(code, null);
         }
 
-        public CommandInfo(byte code, Consumer<Socket> consumer)
+        public CommandInfo(int code, Consumer<Socket> consumer)
         {
             this.code = code;
             this.consumer = consumer;
@@ -53,10 +53,10 @@ public class LightOnOffServer {
             var ioNo = TcpUtil.receiveInt(socket);
 
             GPIOUtil.high(ioNo);
-            TcpUtil.sendByte(socket, (byte)1);
+            TcpUtil.sendInt(socket, 1);
         }
         catch (GPIOException ignore) {
-            TcpUtil.sendByte(socket, (byte)0);
+            TcpUtil.sendInt(socket, 0);
         }
     }
     private void handleLightOff(Socket socket)
@@ -65,10 +65,10 @@ public class LightOnOffServer {
             var ioNo = TcpUtil.receiveInt(socket);
 
             GPIOUtil.low(ioNo);
-            TcpUtil.sendByte(socket, (byte)1);
+            TcpUtil.sendInt(socket, 1);
         }
         catch (GPIOException ignore) {
-            TcpUtil.sendByte(socket, (byte)0);
+            TcpUtil.sendInt(socket, 0);
         }
     }
     private void handleLightOnOff(Socket socket)
@@ -89,13 +89,11 @@ public class LightOnOffServer {
                 GPIOUtil.low(ioNo);
                 Thread.sleep(millisecond);
             }
-
-            Thread.sleep(1000);
-
-            TcpUtil.sendByte(socket, (byte)1);
+            TcpUtil.sendInt(socket, 1);
         }
         catch (GPIOException ex) {
-            TcpUtil.sendByte(socket, (byte)0);
+            TcpUtil.sendInt(socket, 0);
+            ex.printStackTrace();
         }
         catch (InterruptedException ex) {
             ex.printStackTrace();
@@ -105,16 +103,16 @@ public class LightOnOffServer {
     private void handleClient(Socket socket)
     {
         try (socket) {
-            var code = TcpUtil.receiveByte(socket);
+            var code = TcpUtil.receiveInt(socket);
 
             int index = m_commandInfos.indexOf(new CommandInfo(code));
 
             if (index != -1) {
-                TcpUtil.sendByte(socket, (byte)1);
+                TcpUtil.sendInt(socket, 1);
                 m_commandInfos.get(index).consumer.accept(socket);
             }
             else
-                TcpUtil.sendByte(socket, (byte)0);
+                TcpUtil.sendInt(socket, 0);
 
         }
         catch (Throwable ex) {

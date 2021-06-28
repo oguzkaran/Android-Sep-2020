@@ -111,7 +111,11 @@ public final class TcpUtil {
 	public static byte receiveByte(Socket socket)
 	{
 		try {
-			return new DataInputStream(socket.getInputStream()).readByte();
+			byte [] data = new byte[1];
+
+			receive(socket, data);
+
+			return data[0];
 		}
 		catch (NetworkException ex) {
 			throw new NetworkException("TcpUtil.receiveByte", ex.getCause());
@@ -143,7 +147,7 @@ public final class TcpUtil {
 		try {
 			byte[] data = new byte[4];
 
-			TcpUtil.receive(socket, data);
+			receive(socket, data);
 
 			return BitConverter.toInt(data);
 		}
@@ -307,10 +311,7 @@ public final class TcpUtil {
 	public static void sendByte(Socket socket, byte val)
 	{
 		try {
-			DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-
-			dos.writeByte(val);
-			dos.flush();
+			send(socket, BitConverter.getBytes(val));
 		}
 		catch (Throwable ex) {
 			throw new NetworkException("TcpUtil.sendByte", ex);
