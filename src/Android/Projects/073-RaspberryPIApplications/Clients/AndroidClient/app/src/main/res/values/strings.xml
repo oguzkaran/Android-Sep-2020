@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AndroidClient</string>
+    <string name="host">192.168.1.127</string>
+    <string name="light_info_port">50501</string>
 </resources>

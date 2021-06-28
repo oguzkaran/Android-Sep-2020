@@ -2,7 +2,6 @@ package org.csystem.application.raspberry.lightserver.configuration;
 
 import org.csystem.util.Console;
 import org.csystem.util.commandprompt.Command;
-import org.csystem.util.net.NetworkException;
 import org.csystem.util.net.TcpUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -37,9 +36,7 @@ public class CommandsInfo {
             TcpUtil.sendLong(socket, Long.parseLong(millisecond));
             Console.writeLine(TcpUtil.receiveInt(socket) == 1 ? "Success" : "Fail");
         }
-        catch (NetworkException ignore) {
 
-        }
         catch (NumberFormatException ignore) {
             Console.Error.writeLine("Invalid values");
         }
@@ -50,7 +47,7 @@ public class CommandsInfo {
 
     @Command("lg")
     @Command
-    private void lights() throws InterruptedException
+    private void lights()
     {
         try (var socket = new Socket(m_lightInfoHost, m_lightInfoPort)) {
             var size = TcpUtil.receiveInt(socket);
@@ -73,9 +70,6 @@ public class CommandsInfo {
             }
             TcpUtil.sendInt(socket, Integer.parseInt(ioNo));
             Console.writeLine(TcpUtil.receiveInt(socket) == 1 ? "Success" : "Fail");
-        }
-        catch (NetworkException ignore) {
-            //...
         }
         catch (NumberFormatException ignore) {
             Console.Error.writeLine("Invalid values");

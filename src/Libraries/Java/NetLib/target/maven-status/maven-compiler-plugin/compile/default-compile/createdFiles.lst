@@ -1,6 +1,0 @@
-org\csystem\util\net\TcpUtil.class
-org\csystem\util\net\BitConverter.class
-org\csystem\util\net\http\HttpConnection.class
-org\csystem\util\net\NetworkException.class
-org\csystem\util\net\UdpUtil.class
-org\csystem\util\net\EndianConverter.class

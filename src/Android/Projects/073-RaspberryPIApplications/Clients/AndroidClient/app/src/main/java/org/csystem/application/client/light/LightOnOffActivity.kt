@@ -11,13 +11,12 @@ import org.csystem.application.client.light.databinding.ActivityLightOnOffBindin
 import org.csystem.util.net.TcpUtil
 import java.lang.NumberFormatException
 import java.net.Socket
-import java.util.*
 
 class LightOnOffActivity : AppCompatActivity() {
     private lateinit var mBinding: ActivityLightOnOffBinding
 
-    private data class Info(val host: String, val port: Int, val ioNo: Int, val count: Int,
-                            val millisecond: Long)
+    private data class Info(val host: String, val port: Int, val ioNo: Int, val count: Int = 0,
+                            val millisecond: Long = 0L)
 
     private fun getInfo() : Info
     {
@@ -30,35 +29,101 @@ class LightOnOffActivity : AppCompatActivity() {
         return Info(host, port, ioNo, count, millisecond)
     }
 
-    private fun lightOnOffServerProc(info: Info) : Int
+    private fun getInfoWithIo() : Info
+    {
+        val host = mBinding.lightOnOffActivityEditTextHost.text.toString()
+        val port = mBinding.lightOnOffActivityEditTextPort.text.toString().toInt()
+        val ioNo = mBinding.lightOnOffActivityEditTextIoNo.text.toString().toInt()
+
+        return Info(host, port, ioNo)
+    }
+
+    private fun lightOnOffCallback(info: Info) : Int
     {
         var result = 0
 
-        Socket(info.host, info.port).also {
+        Socket(info.host, info.port).use {
             TcpUtil.sendInt(it, 0)
-            if (TcpUtil.receiveInt(it).toInt() == 1) {
+            if (TcpUtil.receiveInt(it) == 1) {
                 TcpUtil.sendInt(it, info.ioNo)
                 TcpUtil.sendInt(it, info.count)
                 TcpUtil.sendLong(it, info.millisecond)
 
                 result = TcpUtil.receiveInt(it)
-                Log.d("test", result.toString())
+                Log.d("result", result.toString())
             }
         }
 
         return result
     }
 
-    private fun onButtonLightOnOff()
+    private fun lightOnOff(info: Info, code: Int) : Int
+    {
+        var result = 0
+
+        Socket(info.host, info.port).use {
+            TcpUtil.sendInt(it, code)
+            if (TcpUtil.receiveInt(it) == 1) {
+                TcpUtil.sendInt(it, info.ioNo)
+                result = TcpUtil.receiveInt(it)
+            }
+        }
+
+        return result
+    }
+
+    private fun lightOnCallback(info: Info)  = lightOnOff(info, 1)
+    private fun lightOffCallback(info: Info)  = lightOnOff(info, -1)
+
+    private fun onLightOnOffButtonClicked()
     {
         try {
             Observable.just(getInfo())
                 .subscribeOn(Schedulers.io())
-                .map{lightOnOffServerProc(it)}
+                .map{lightOnOffCallback(it)}
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {mBinding.lightOnOffActivityTextViewResult.text = if (it == 1) "Success" else "Fail"},
-                    {Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()})
+                    {Toast.makeText(this, "Light OnOff: ${it.message}", Toast.LENGTH_LONG).show()})
+        }
+        catch (ignore: NumberFormatException) {
+            Toast.makeText(this, "Invalid values", Toast.LENGTH_LONG).show()
+        }
+        catch (ex: Throwable) {
+            Toast.makeText(this, ex.message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+
+    private fun onLightOnButtonClicked()
+    {
+        try {
+            Observable.just(getInfoWithIo())
+                .subscribeOn(Schedulers.io())
+                .map{lightOnCallback(it)}
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {mBinding.lightOnOffActivityTextViewResult.text = if (it == 1) "Success" else "Fail"},
+                    {Toast.makeText(this, "Light On: ${it.message}", Toast.LENGTH_LONG).show()})
+        }
+        catch (ignore: NumberFormatException) {
+            Toast.makeText(this, "Invalid values", Toast.LENGTH_LONG).show()
+        }
+        catch (ex: Throwable) {
+            Toast.makeText(this, ex.message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun onLightOffButtonClicked()
+    {
+        try {
+            Observable.just(getInfoWithIo())
+                .subscribeOn(Schedulers.io())
+                .map{lightOffCallback(it)}
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {mBinding.lightOnOffActivityTextViewResult.text = if (it == 1) "Success" else "Fail"},
+                    {Toast.makeText(this, "Light Off: ${it.message}", Toast.LENGTH_LONG).show()})
         }
         catch (ignore: NumberFormatException) {
             Toast.makeText(this, "Invalid values", Toast.LENGTH_LONG).show()
@@ -70,11 +135,14 @@ class LightOnOffActivity : AppCompatActivity() {
 
     private fun initButtons()
     {
-        mBinding.lightOnOffActivityButtonLightOnOff.setOnClickListener{onButtonLightOnOff()}
+        mBinding.lightOnOffActivityButtonLightOnOff.setOnClickListener{onLightOnOffButtonClicked()}
+        mBinding.lightOnOffActivityButtonLightOn.setOnClickListener{onLightOnButtonClicked()}
+        mBinding.lightOnOffActivityButtonLightOff.setOnClickListener{onLightOffButtonClicked()}
     }
 
     private fun initViews()
     {
+        title = intent.getStringExtra("title")
         initButtons()
     }
 

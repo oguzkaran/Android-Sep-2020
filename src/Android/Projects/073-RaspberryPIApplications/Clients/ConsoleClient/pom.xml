@@ -10,10 +10,10 @@
 	</parent>
 
 	<groupId>org.csystem</groupId>
-	<artifactId>LightServer</artifactId>
+	<artifactId>LightServerConsoleClient</artifactId>
 	<version>5.0.0</version>
 	<name>LightServer</name>
-	<description>Server Application</description>
+
 
 	<properties>
 		<java.version>11</java.version>

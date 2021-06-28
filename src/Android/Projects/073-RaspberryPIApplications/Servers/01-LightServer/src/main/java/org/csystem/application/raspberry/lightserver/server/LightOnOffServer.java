@@ -93,7 +93,6 @@ public class LightOnOffServer {
         }
         catch (GPIOException ex) {
             TcpUtil.sendInt(socket, 0);
-            ex.printStackTrace();
         }
         catch (InterruptedException ex) {
             ex.printStackTrace();
