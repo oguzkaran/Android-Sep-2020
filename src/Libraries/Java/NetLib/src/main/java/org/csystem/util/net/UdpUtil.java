@@ -11,6 +11,8 @@ All Rights Free
 package org.csystem.util.net;
 
 import java.net.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public final class UdpUtil {
     private static DatagramPacket createDatagramPacket(byte [] data, String host, int port) throws UnknownHostException
@@ -125,8 +127,13 @@ public final class UdpUtil {
 
     public static void sendString(String host, int port, String str)
     {
+        sendString(host, port, str, StandardCharsets.UTF_8);
+    }
+
+    public static void sendString(String host, int port, String str, Charset charset)
+    {
         try (DatagramSocket datagramSocket = new DatagramSocket()) {
-            byte [] data = BitConverter.getBytes(str);
+            byte [] data = BitConverter.getBytes(str, charset);
 
             datagramSocket.send(createDatagramPacket(data, host, port));
         }
@@ -276,12 +283,17 @@ public final class UdpUtil {
     }
     public static String receiveString(int port, int maxLength)
     {
+        return receiveString(port, maxLength, StandardCharsets.UTF_8);
+    }
+
+    public static String receiveString(int port, int maxLength, Charset charset)
+    {
         try (DatagramSocket datagramSocket = new DatagramSocket(port)) {
             DatagramPacket datagramPacket = createDatagramPacket(maxLength);
 
             datagramSocket.receive(datagramPacket);
 
-            return BitConverter.toString(datagramPacket.getData());
+            return BitConverter.toString(datagramPacket.getData(), 0, datagramPacket.getLength(), charset);
         }
         catch (Throwable ex) {
             throw new NetworkException("UdpUtil.receiveString", ex);

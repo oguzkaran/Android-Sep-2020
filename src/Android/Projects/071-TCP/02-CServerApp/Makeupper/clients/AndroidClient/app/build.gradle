@@ -54,5 +54,5 @@ dependencies {
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
-    implementation 'org.csystem:org-csystem-util-net:5.0.1'
+    implementation 'org.csystem:org-csystem-util-net:5.2.0'
 }

@@ -100,9 +100,19 @@ final class BitConverter {
 		return toString(data, StandardCharsets.UTF_8);
 	}
 
+	public static String toString(byte [] data, int offset, int count)
+	{
+		return toString(data, offset, count, StandardCharsets.UTF_8);
+	}
+
 	public static String toString(byte [] data, Charset charset)
 	{
-		return new String(data, charset);
+		return toString(data, 0, data.length, charset);
+	}
+
+	public static String toString(byte [] data, int startIndex, int count, Charset charset)
+	{
+		return new String(data, startIndex, count, charset);
 	}
 
 	public static short toShort(byte [] data)
