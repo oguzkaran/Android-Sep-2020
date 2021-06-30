@@ -21,9 +21,12 @@ public class Receiver {
             for (;;) {
                 Console.writeLine("Waiting for a sender");
 
-                var text = UdpUtil.receiveString(m_port, BUFFER_SIZE);
-
-                Console.writeLine("[%s]", text);
+                var packet = UdpUtil.receiveDatagramPacket(m_port, BUFFER_SIZE);
+                var length = packet.getLength();
+                var text = new String(packet.getData(), 0, length);
+                var hostAddress = packet.getAddress().getHostAddress();
+                var port = packet.getPort();
+                Console.writeLine("%d bytes data [%s] received from %s:%d", length, text, hostAddress, port);
             }
         }
         catch (NetworkException ex) {

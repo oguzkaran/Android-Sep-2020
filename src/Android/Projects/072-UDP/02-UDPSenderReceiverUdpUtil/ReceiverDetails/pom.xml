@@ -10,10 +10,8 @@
 	</parent>
 
 	<groupId>org.csystem</groupId>
-	<artifactId>ConsoleClient</artifactId>
-	<version>5.0.0</version>
-	<name>LightServer</name>
-
+	<artifactId>ReceiverDetails</artifactId>
+	<version>2.0.0</version>
 
 	<properties>
 		<java.version>11</java.version>
@@ -28,17 +26,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.csystem</groupId>
-			<artifactId>org-csystem-util-console</artifactId>
-			<version>5.0.0</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.csystem</groupId>
 			<artifactId>org-csystem-util</artifactId>
 			<version>5.0.0</version>
@@ -46,13 +33,7 @@
 
 		<dependency>
 			<groupId>org.csystem</groupId>
-			<artifactId>org-csystem-util-scheduler</artifactId>
-			<version>4.0.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.csystem</groupId>
-			<artifactId>org-csystem-util-commandprompt</artifactId>
+			<artifactId>org-csystem-util-console</artifactId>
 			<version>5.0.0</version>
 		</dependency>
 
@@ -66,6 +47,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 

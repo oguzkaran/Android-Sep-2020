@@ -281,6 +281,7 @@ public final class UdpUtil {
             throw new NetworkException("UdpUtil.receiveBoolean", ex);
         }
     }
+
     public static String receiveString(int port, int maxLength)
     {
         return receiveString(port, maxLength, StandardCharsets.UTF_8);
@@ -288,15 +289,32 @@ public final class UdpUtil {
 
     public static String receiveString(int port, int maxLength, Charset charset)
     {
-        try (DatagramSocket datagramSocket = new DatagramSocket(port)) {
-            DatagramPacket datagramPacket = createDatagramPacket(maxLength);
-
-            datagramSocket.receive(datagramPacket);
+        try {
+            DatagramPacket datagramPacket = receiveDatagramPacket(port, maxLength, charset);
 
             return BitConverter.toString(datagramPacket.getData(), 0, datagramPacket.getLength(), charset);
         }
         catch (Throwable ex) {
             throw new NetworkException("UdpUtil.receiveString", ex);
+        }
+    }
+
+    public static DatagramPacket receiveDatagramPacket(int port, int maxLength)
+    {
+        return receiveDatagramPacket(port, maxLength, StandardCharsets.UTF_8);
+    }
+
+    public static DatagramPacket receiveDatagramPacket(int port, int maxLength, Charset charset)
+    {
+        try (DatagramSocket datagramSocket = new DatagramSocket(port)) {
+            DatagramPacket datagramPacket = createDatagramPacket(maxLength);
+
+            datagramSocket.receive(datagramPacket);
+
+            return datagramPacket;
+        }
+        catch (Throwable ex) {
+            throw new NetworkException("UdpUtil.receiveStringPacket", ex);
         }
     }
 }

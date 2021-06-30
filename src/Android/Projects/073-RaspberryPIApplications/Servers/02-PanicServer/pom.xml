@@ -10,10 +10,10 @@
 	</parent>
 
 	<groupId>org.csystem</groupId>
-	<artifactId>ConsoleClient</artifactId>
+	<artifactId>PanicServer</artifactId>
 	<version>5.0.0</version>
 	<name>LightServer</name>
-
+	<description>Server Application</description>
 
 	<properties>
 		<java.version>11</java.version>
@@ -46,20 +46,20 @@
 
 		<dependency>
 			<groupId>org.csystem</groupId>
+			<artifactId>org-csystem-util-net</artifactId>
+			<version>5.2.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.csystem</groupId>
 			<artifactId>org-csystem-util-scheduler</artifactId>
 			<version>4.0.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.csystem</groupId>
-			<artifactId>org-csystem-util-commandprompt</artifactId>
-			<version>5.0.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.csystem</groupId>
-			<artifactId>org-csystem-util-net</artifactId>
-			<version>5.2.0</version>
+			<artifactId>org-csystem-util-pi-raspberry-raspian</artifactId>
+			<version>6.0.1</version>
 		</dependency>
 
 		<dependency>
@@ -79,3 +79,4 @@
 	</build>
 
 </project>
+
