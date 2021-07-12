@@ -3,29 +3,11 @@
 ----------------------------------------------------------------------------------------------------------------------*/
 package org.csystem.app
 
-import kotlinx.coroutines.*
+fun main()
+{
 
-fun main() {
-    runBlocking {
-        doWork()
-        println("Hello World")
-        readLine()
-    }
 }
 
-suspend fun doWork()
-{
-    GlobalScope.launch {
-        getResult()
-    }
-}
-suspend fun getResult() = coroutineScope {
-    println("result = ${async(Dispatchers.Main) { foo() }.await()}")
-    println("Hello...")
-}
-suspend fun foo() : Int
-{
-    delay(3000)
-    return 10
-}
+
+
 
