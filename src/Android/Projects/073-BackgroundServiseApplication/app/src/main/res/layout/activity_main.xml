@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <EditText
+        android:id="@+id/mainActivityEditFilename"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="test.dat"
+        android:hint="File name" />
+
+    <EditText
+        android:id="@+id/mainActivityEditTextCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:text="10"
+        android:hint="Count"
+        />
+
+    <EditText
+        android:id="@+id/mainActivityEditTextMin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:text="0"
+        android:hint="Min"/>
+
+    <EditText
+        android:id="@+id/mainActivityEditTextMax"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        android:text="100"
+        android:hint="Max"/>
+    <Button
+        android:id="@+id/mainActivityButtonStartService"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Service" />
+
+    <Button
+        android:id="@+id/mainActivityButtonGetNumbers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Get Numbers" />
+
+    <TextView
+        android:id="@+id/mainActivityTextViewNumbers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+
+</LinearLayout>
