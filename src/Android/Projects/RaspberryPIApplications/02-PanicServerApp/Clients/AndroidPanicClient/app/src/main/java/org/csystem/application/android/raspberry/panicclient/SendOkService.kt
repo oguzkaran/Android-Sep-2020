@@ -6,6 +6,7 @@ import android.os.IBinder
 import io.reactivex.rxjava3.core.Observable
 import org.csystem.application.android.raspberry.panicclient.config.HOST
 import org.csystem.application.android.raspberry.panicclient.config.OK_UDP_PORT
+import org.csystem.application.android.raspberry.panicclient.global.g_sendOK
 import org.csystem.util.net.UdpUtil
 import java.util.concurrent.TimeUnit
 
@@ -18,8 +19,9 @@ class SendOkService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int
     {
         Observable.interval(500, TimeUnit.MILLISECONDS)
-            .subscribe{UdpUtil.sendInt(HOST, OK_UDP_PORT, 1)}
+            .takeWhile{ g_sendOK }
+            .subscribe({UdpUtil.sendInt(HOST, OK_UDP_PORT, 1)}, {}, {stopSelf()})
 
-        return START_REDELIVER_INTENT;
+        return START_REDELIVER_INTENT
     }
 }
