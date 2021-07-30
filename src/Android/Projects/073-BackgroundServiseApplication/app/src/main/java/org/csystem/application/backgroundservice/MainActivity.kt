@@ -15,7 +15,7 @@ import java.io.EOFException
 class MainActivity : AppCompatActivity() {
     private lateinit var mBinding: ActivityMainBinding
 
-    private fun onStartActivityButtonClicked()
+    private fun onStartServiceButtonClicked()
     {
         try {
             Intent(this, RandomNumberGeneratorService::class.java).apply {
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
             catch (ignore: EOFException) {
 
             }
-        }
+       }
 
         return sb.substring(0, sb.length - 1)
     }
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initButtons()
     {
-        mBinding.mainActivityButtonStartService.setOnClickListener{onStartActivityButtonClicked()}
+        mBinding.mainActivityButtonStartService.setOnClickListener{onStartServiceButtonClicked()}
         mBinding.mainActivityButtonGetNumbers.setOnClickListener{onGetNumbersButtonClicked()}
     }
 

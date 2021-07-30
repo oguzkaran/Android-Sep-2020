@@ -1,0 +1,17 @@
+
+/*
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            allowInsecureProtocol true
+            url 'http://raw.github.com/oguzkaran/android-sep-2020-maven-repo/master'
+        }
+    }
+}
+*/
+
+rootProject.name = "AndroidPanicClient"
+include ':app'

@@ -1,0 +1,2 @@
+rootProject.name='013-UncaughtExceptionApp'
+include ':app'

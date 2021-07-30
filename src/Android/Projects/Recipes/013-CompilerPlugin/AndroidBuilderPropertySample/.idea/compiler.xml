@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$PROJECT_DIR$/DeviceLib/libs/org-csystem-annotation-builder-1.0.0.jar" />
+        </processorPath>
+        <module name="CompileAnnotationSample.DeviceLib" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="1.8">
+      <module name="DeviceLib" target="1.7" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

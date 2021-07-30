@@ -1,0 +1,4 @@
+include ':AndroidCardLib'
+include ':DeviceLib'
+include ':app'
+rootProject.name = "CompileAnnotationSample"

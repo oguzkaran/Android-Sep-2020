@@ -12,11 +12,6 @@ import java.util.concurrent.TimeUnit
 import kotlin.random.Random
 
 class RandomNumberGeneratorService : Service() {
-    private fun writeFile(dos: DataOutputStream, value: Int)
-    {
-        dos.writeInt(value)
-    }
-
     override fun onBind(intent: Intent): IBinder = throw NotImplementedError("Not implemented")
 
     override fun onCreate()
@@ -29,11 +24,11 @@ class RandomNumberGeneratorService : Service() {
     {
         Toast.makeText(this, "RandomNumberGeneratorService.onStartCommand", Toast.LENGTH_LONG).show()
 
-        val intent = intent!!
-        val filename = intent.getStringExtra("filename")
-        val min = intent.getIntExtra("min", 0)
-        val max = intent.getIntExtra("max", 100)
-        var count = intent.getIntExtra("count", 0)
+        val selfIntent = intent!!
+        val filename = selfIntent.getStringExtra("filename")
+        val min = selfIntent.getIntExtra("min", 0)
+        val max = selfIntent.getIntExtra("max", 100)
+        var count = selfIntent.getIntExtra("count", 0)
         val fos = openFileOutput(filename, MODE_APPEND)
         val dos = DataOutputStream(fos);
 
@@ -41,7 +36,7 @@ class RandomNumberGeneratorService : Service() {
         {
             --count
             return Random.nextInt(min, max + 1).apply {
-                writeFile(dos, this)
+                dos.writeInt(this)
             }
         }
 
@@ -52,7 +47,6 @@ class RandomNumberGeneratorService : Service() {
 
         return START_REDELIVER_INTENT //Eğer servis yok edilirse son intent değeri ile tekrar servis başlatılır (redeliver last intent)
     }
-
 
     override fun onDestroy()
     {

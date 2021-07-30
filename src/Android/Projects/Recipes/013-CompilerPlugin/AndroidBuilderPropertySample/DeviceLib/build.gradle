@@ -1,0 +1,10 @@
+apply plugin: 'java-library'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    annotationProcessor files('libs/org-csystem-annotation-builder-1.0.0.jar')
+    implementation files('libs/org-csystem-annotation-builder-1.0.0.jar')
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"

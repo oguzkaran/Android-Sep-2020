@@ -1,0 +1,3 @@
+include ':org-csystem-libs-activityLib'
+include ':app'
+rootProject.name = "ActivityLib"
