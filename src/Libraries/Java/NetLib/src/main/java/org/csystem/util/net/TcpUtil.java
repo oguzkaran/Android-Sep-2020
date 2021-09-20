@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------
 FILE        : TcpUtil.java
 AUTHOR      : Oğuz Karan
-LAST UPDATE : 18.06.2021
+LAST UPDATE : 20.09.2021
 
 Utility class for TCP socket operations
 
@@ -14,7 +14,6 @@ import java.io.*;
 import java.net.Socket;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
 
 public final class TcpUtil {
 	private static int receive(DataInputStream dis, byte [] data, int offset, int length) throws IOException
@@ -246,7 +245,7 @@ public final class TcpUtil {
 	{
 		try {
 			byte[] dataLen = new byte[4];
-			TcpUtil.receive(socket, dataLen);
+			receive(socket, dataLen);
 
 			byte[] data = new byte[BitConverter.toInt(dataLen)];
 
@@ -284,26 +283,30 @@ public final class TcpUtil {
 		}
 	}
 
-	public static void receiveFile(Socket socket, File file, int blockSize)
+	public static void receiveFile(Socket socket, File file)
 	{
-		receiveFile(socket, file.getAbsolutePath(), blockSize);
+		receiveFile(socket, file.getAbsolutePath());
 	}
 
-	public static void receiveFile(Socket socket, String path, int blockSize)
+	public static void receiveFile(Socket socket, String path)
 	{
-		byte[] data = new byte[blockSize];
-
 		try (FileOutputStream fos = new FileOutputStream(path)) {
-			int read;
+			int result;
 
-			while ((read = receive(socket, data)) > 0)
-				fos.write(data, 0, read);
+			for (;;) {
+				var data = new byte[receiveInt(socket)];
+				result = receive(socket, data);
+
+				if (result <= 0)
+					break;
+
+				fos.write(data, 0, result);
+			}
 		}
 		catch (NetworkException ex) {
 			throw new NetworkException("TcpUtil.receiveFile", ex.getCause());
 		}
 		catch (Throwable ex) {
-			new File(path).delete();
 			throw new NetworkException("TcpUtil.receiveFile", ex);
 		}
 	}
@@ -461,16 +464,21 @@ public final class TcpUtil {
 		byte [] data = new byte[blockSize];
 
 		try (FileInputStream fis = new FileInputStream(path)) {
-			int read;
+			int result;
 
-			while ((read = fis.read(data)) > 0)
-				TcpUtil.send(socket, data, 0, read);
+			for (;;) {
+				result = fis.read(data);
+				if (result <= 0)
+					break;
+
+				sendInt(socket, result);
+				send(socket, data, 0, result);
+			}
 		}
 		catch (NetworkException ex) {
 			throw new NetworkException("TcpUtil.sendFile", ex.getCause());
 		}
 		catch (Throwable ex) {
-			new File(path).delete();
 			throw new NetworkException("TcpUtil.sendFile", ex);
 		}
 	}
